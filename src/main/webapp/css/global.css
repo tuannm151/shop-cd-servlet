@@ -1,0 +1,45 @@
+:root {
+  --bg-color: #effffd;
+  --sub-color--low: #b8fff9;
+  --sub-color--high: #85f4ff;
+  --sub-color--dark: #79a1f9;
+  --sub-color--dark-2: #888ce9;
+  --sub-color--logo: #f9f871;
+  --text-color-dark: #292f33;
+  --text-color-light: #bbb;
+}
+body {
+  color: var(--text-color-dark);
+}
+
+html {
+  font-family: "Sora", sans-serif;
+}
+* {
+  box-sizing: border-box;
+}
+
+.btn {
+  background: var(--sub-color--dark);
+  color: #fff;
+  filter: brightness(1);
+  border: none;
+  cursor: pointer;
+  transition: 0.4s;
+}
+.btn:hover {
+  background: var(--sub-color--dark-2);
+}
+
+h3,
+h4,
+h5,
+p,
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+.error-message {
+  text-align: center;
+}
