@@ -2,6 +2,7 @@
 A website selling CD music albums. 
 -	Mục tiêu: Ôn lại kiến thức HTML, CSS, JS để làm đề tài dự án
 -	Mô tả: Thiết kế website bán album đĩa CD
+-	Live web: https://cd-shop-servlet.herokuapp.com
 -	Chi tiết:
 *  Ngày 7-9/3 thiết kế giao diện đăng kí và đăng nhập bằng html, css. Thực hiện client-side validate bằng JS
 	 *  Tạo webserver bằng java servlet để handle dữ liệu từ form
