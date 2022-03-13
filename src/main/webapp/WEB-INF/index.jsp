@@ -35,7 +35,7 @@
 
       <ul class="nav">
         <li class="nav__item">
-          <a href="${pageContext.request.contextPath}" class="nav__link">Home</a>
+          <a href="${pageContext.request.contextPath}/" class="nav__link">Home</a>
         </li>
         <li class="nav__item">
           <a href="${pageContext.request.contextPath}/cart" class="nav__link">Cart</a>
