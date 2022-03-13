@@ -86,7 +86,7 @@
         </form>
 
         <div class="form-footer">
-          <a href="${pageContext.request.contextPath}/login.html" class="form-footer__link">Don't have an account? Login here</a>
+          <a href="${pageContext.request.contextPath}/login.jsp" class="form-footer__link">Don't have an account? Login here</a>
         </div>
     </div>
     </div>
