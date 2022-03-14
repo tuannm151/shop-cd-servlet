@@ -80,7 +80,7 @@
                 </div>
                 <div class="product__info" data-productId="${product.id}">
                   <div class="product__detail">
-                    <span class="product__category">${product.categoryName}</span>
+                    <span class="product__category ${product.getFormattedCategoryName()}">${product.categoryName}</span>
                     <h3 class="product__title">${product.name}</h3>
                   </div>
 

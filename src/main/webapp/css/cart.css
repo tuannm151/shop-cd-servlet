@@ -117,7 +117,8 @@
   position: fixed;
   width: 85%;
   bottom: 0;
-  background: #ffe68a;
+  /*background: #ffe68a;*/
+  background: #F5DF96;
   display: flex;
   justify-content: space-between;
   transform: translateX(-50%);

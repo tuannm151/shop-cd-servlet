@@ -1,6 +1,7 @@
 package com.dots.shoptest.model;
 
 import java.math.BigDecimal;
+import java.util.Locale;
 
 public class Product {
 
@@ -77,5 +78,9 @@ public class Product {
 
   public void setCategoryName(String categoryName) {
     this.categoryName = categoryName;
+  }
+
+  public String getFormattedCategoryName() {
+    return categoryName.replaceAll("\\s+","").toLowerCase();
   }
 }

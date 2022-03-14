@@ -3,8 +3,7 @@
     padding: 5px 20px;
     justify-content: space-between;
     align-items: center;
-    background: #79a1f9;
-    color: #fff;
+    background: #fff;
 }
 
 .sticky {
@@ -19,7 +18,7 @@
 
 .logo {
     font-size: 30px;
-    color: var(--sub-color--logo);
+    color: var(--color-dark);
 }
 
 .header-left {
@@ -32,7 +31,7 @@
     font-size: 14px;
     font-weight: 600;
     margin-left: 15px;
-    color: var(--sub-color--logo);
+    color: var(--color-dark);
 }
 
 .nav {
@@ -49,18 +48,18 @@
 
 .nav__link {
     text-decoration: none;
-    color: #fff;
+    color: var(--color-dark);
     padding: 3px;
     transition: 0.2s ease-out;
 }
 
 .nav__link:hover {
-    border-bottom: 3px solid var(--sub-color--logo);
+    border-bottom: 2px solid var(--color-dark);
 }
 
 .nav__link:visited,
 .nav__link:link {
-    color: #fff;
+    color: var(--color-dark);
 }
 
 .cart-logo {
@@ -74,7 +73,7 @@
     margin-right: 10px;
 }
 .cart__count {
-    background: var(--sub-color--logo);
+    background: var(--sub-color--dark-2);
     color: #000;
     border-radius: 50%;
     padding: 3px 7px;

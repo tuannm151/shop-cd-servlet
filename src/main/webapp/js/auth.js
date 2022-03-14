@@ -84,9 +84,6 @@ nameInputDOM?.addEventListener("input", (e) => {
 });
 
 emailInputDOM.addEventListener("input", (e) => {
-  if(emailInputDOM.classList.contains("has-value")) {
-    return;
-  }
   emailInputDOM.className = "field-group__input has-value";
   const fieldGroup = e.target.parentElement;
   fieldGroup.className = "field-group";

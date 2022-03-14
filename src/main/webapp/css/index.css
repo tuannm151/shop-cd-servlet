@@ -24,13 +24,14 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  margin-bottom: 50px;
+  margin: 50px 0;
 }
 
 .products__header {
   display: flex;
   align-items: center;
   flex-direction: column;
+  color: var(--color-dark);
 }
 
 .products-container {
@@ -134,3 +135,28 @@
   font-size: 18px;
   color: #fff;
 }
+
+.rap {
+  background-color: #3B5272;
+}
+
+.pop {
+  background-color: #AC5B91;
+}
+
+.lofi {
+  background-color: #EEA4B8;
+}
+
+.hiphop {
+  background-color: #2F4858;
+}
+
+.rnb {
+  background-color: #595987;
+}
+
+.jazz {
+  background-color: #815B93;
+}
+.

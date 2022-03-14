@@ -93,7 +93,7 @@
                     </div>
                   </div>
                   <div class="cart__item-price">
-                <span class="cart__item-price-value"><fmt:formatNumber
+                <span class="cart__item-price-value">$<fmt:formatNumber
                         value="${cartItem.product.price}" minFractionDigits="2"/></span>
                   </div>
                   <div class="cart__item-qty" data-product-id="${cartItem.product.id}" data-product-price="${cartItem.product.price}" data-qty-value="${cartItem.quantity}">
@@ -106,7 +106,7 @@
                     </button>
                   </div>
                   <div class="cart__item-total">
-                <span class="cart__item-total-value"><fmt:formatNumber
+                <span class="cart__item-total-value">$<fmt:formatNumber
                         value="${cartItem.getTotalSum()}" minFractionDigits="2"/></span>
                   </div>
                   <button class="btn-action cart__item-remove" data-action="delete">
@@ -127,8 +127,8 @@
     <div class="checkout-container">
       <div class="checkout__account-info">
         <h4 class="checkout__header">Account</h4>
-        <span class="checkout__account-info-text">Nguyen Minh Tuan</span>
-        <span class="checkout__account-info-text">tuanxsokoh@gmail.com</span>
+        <span class="checkout__account-info-text">${sessionScope.user.name}</span>
+        <span class="checkout__account-info-text">${sessionScope.user.email}</span>
       </div>
       <div class="checkout__shipping-info">
         <h4 class="checkout__header">Shipping</h4>
