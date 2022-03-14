@@ -69,12 +69,12 @@
 }
 .cart__icon {
     font-size: 30px;
-    color: #fff;
+    color: var(--color-dark);
     margin-right: 10px;
 }
 .cart__count {
     background: var(--sub-color--dark-2);
-    color: #000;
+    color: #fff;
     border-radius: 50%;
     padding: 3px 7px;
     font-size: 12px;

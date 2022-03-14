@@ -110,7 +110,7 @@
   transition: 0.4s;
 }
 .form-footer__link:hover {
-  color: var(--sub-color--dark);
+  color: #888ce9;
 }
 
 .form-alert-text {
@@ -132,4 +132,16 @@ input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 30px var(--bg-color) inset !important;
+}
+
+.btn {
+  background: #79a1f9;
+  color: #fff;
+  filter: brightness(1);
+  border: none;
+  cursor: pointer;
+  transition: 0.4s;
+}
+.btn:hover {
+  background: #888ce9;
 }

@@ -2,9 +2,8 @@
   --bg-color: #effffd;
   --sub-color--low: #b8fff9;
   --sub-color--high: #85f4ff;
-  --sub-color--dark: #79a1f9;
+  --sub-color--dark: #EEA4B8;
   --sub-color--dark-2: #d25b83;
-  --sub-color--logo: #f9f871;
   --text-color-dark: #292f33;
   --text-color-light: #bbb;
   --color-dark: #0d0c22;
@@ -20,17 +19,7 @@ html {
   box-sizing: border-box;
 }
 
-.btn {
-  background: var(--sub-color--dark);
-  color: #fff;
-  filter: brightness(1);
-  border: none;
-  cursor: pointer;
-  transition: 0.4s;
-}
-.btn:hover {
-  background: var(--sub-color--dark-2);
-}
+
 
 h3,
 h4,
