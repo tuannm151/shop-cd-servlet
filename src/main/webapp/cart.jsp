@@ -70,7 +70,7 @@
           <div class="cart__header-action"></div>
         </div>
         <c:choose>
-          <c:when test="${cartCount == 0}">
+          <c:when test="${cart.totalSize == 0}">
             <div class="error-message">
               <h2>Cart is empty</h2>
             </div>

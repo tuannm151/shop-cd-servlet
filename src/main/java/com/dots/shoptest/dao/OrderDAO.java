@@ -15,6 +15,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class OrderDAO {
+
     public static Integer initOrder(OrderDTO orderDTO) {
         Integer orderId = null;
         try {

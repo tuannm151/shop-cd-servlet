@@ -10,7 +10,22 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class CartDAO {
-
+  public static boolean isCartEmpty(int userId) {
+    boolean isEmpty = false;
+    try {
+      Connection connection = DBConnection.getConnection();
+      String sql = "SELECT * FROM cart_item WHERE person_id = ?";
+      PreparedStatement preparedStatement = connection.prepareStatement(sql);
+      preparedStatement.setInt(1, userId);
+      ResultSet resultSet = preparedStatement.executeQuery();
+      if (!resultSet.next()) {
+        isEmpty = true;
+      }
+    } catch (SQLException | ClassNotFoundException e) {
+      e.printStackTrace();
+    }
+    return isEmpty;
+  }
   public static int getCartItemsCount(int userId) {
     int count = -1;
     try {

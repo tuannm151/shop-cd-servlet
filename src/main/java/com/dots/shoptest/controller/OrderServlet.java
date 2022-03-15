@@ -85,6 +85,12 @@ public class OrderServlet extends HttpServlet {
             );
             return;
         }
+
+        if(CartDAO.isCartEmpty(user.getId())) {
+            response.sendRedirect(getServletContext().getContextPath() + "/cart");
+            return;
+        }
+
         OrderDTO newOrderDTO = new OrderDTO();
         newOrderDTO.setUserId(user.getId());
         newOrderDTO.setAddress(address);
