@@ -78,81 +78,100 @@
             <span class="order__header-item">Status</span>
           </div>
           <ul class="order__items">
-            <c:forEach var="order" items="${orders}">
-              <li class="order__item" data-order-id="${order.id}">
-                <span class="order__item-info">OD${order.id}</span>
-                <span class="order__item-info">${order.itemCount} ${order.itemCount > 1 ? 'items' : 'item'}</span>
-                <span class="order__item-info">${order.createdDate}</span>
-                <span class="order__item-info">$<fmt:formatNumber
-                        value="${order.totalPrice}" minFractionDigits="2"/></span>
-                <span class="order__item-info">${order.status}</span>
-                <button class="order__item-action">
-                  <i class="bi bi-eye"></i> See detail
-                </button>
-              </li>
-            </c:forEach>
+            <c:choose>
+              <c:when test="${isEmpty eq true}">
+                <h3 class="error-message">You don't have any orders yet.</h3>
+              </c:when>
+              <c:when test="${error ne null}">
+                <h3 class="error-message">${error}</h3>
+              </c:when>
+              <c:otherwise>
+                <c:forEach var="order" items="${orders}">
+                  <li class="order__item" data-order-id="${order.id}">
+                    <span class="order__item-info">OD${order.id}</span>
+                    <span class="order__item-info">${order.itemCount} ${order.itemCount > 1 ? 'items' : 'item'}</span>
+                    <span class="order__item-info">${order.createdDate}</span>
+                    <span class="order__item-info">$<fmt:formatNumber
+                            value="${order.totalPrice}" minFractionDigits="2"/></span>
+                    <span class="order__item-info">${order.status}</span>
+                    <button class="order__item-action">
+                      <i class="bi bi-eye"></i> See detail
+                    </button>
+                  </li>
+                </c:forEach>
+              </c:otherwise>
+            </c:choose>
 
           </ul>
         </div>
         <div class="order__detail">
-          <div class="order__detail-header">
-            <h3 class="order__detail-title">Order Summary</h3>
-            <span class="order__detail-id">#OD${lastestOrder.id}</span>
-          </div>
+          <c:choose>
+            <c:when test="${isEmpty eq true}">
+            </c:when>
+            <c:when test="${error ne null}">
+            </c:when>
+            <c:otherwise>
+              <div class="order__detail-header">
+                <h3 class="order__detail-title">Order Summary</h3>
+                <span class="order__detail-id">#OD${lastestOrder.id}</span>
+              </div>
 
-          <div class="order__detail-content">
-            <c:forEach var="orderItem" items="${lastestOrder.orderItems}">
-              <div class="order__detail-item">
-                <div class="order__detail-img">
-                  <img src="${orderItem.product.imageUrl}" alt="A product" />
-                </div>
-                <div class="order__detail-info">
-                  <div class="order__detail-name">
-                    <span>${orderItem.product.name}</span>
-                  </div>
-                  <div class="order__detail-price">
+              <div class="order__detail-content">
+                <c:forEach var="orderItem" items="${lastestOrder.orderItems}">
+                  <div class="order__detail-item">
+                    <div class="order__detail-img">
+                      <img src="${orderItem.product.imageUrl}" alt="A product" />
+                    </div>
+                    <div class="order__detail-info">
+                      <div class="order__detail-name">
+                        <span>${orderItem.product.name}</span>
+                      </div>
+                      <div class="order__detail-price">
                     <span>$<fmt:formatNumber
                             value="${orderItem.getTotalPrice()}" minFractionDigits="2"/></span>
+                      </div>
+                      <div class="order__detail-quantity">
+                        <span>Quantity: ${orderItem.quantity}</span>
+                      </div>
+                    </div>
                   </div>
-                  <div class="order__detail-quantity">
-                    <span>Quantity: ${orderItem.quantity}</span>
-                  </div>
+                </c:forEach>
+
+              </div>
+              <div class="order__detail-contact">
+                <h3 class="order__detail-title order__detail-title--contact">
+                  Shipping
+                </h3>
+                <div class="order__detail-contact-item">
+                  <i class="bi bi-geo-alt"></i>
+                  <span class="order__detail-contact-text"
+                  >${lastestOrder.address}
+                  </span>
+                </div>
+                <div class="order__detail-contact-item">
+                  <i class="bi bi-telephone"></i>
+                  <span class="order__detail-contact-text">${lastestOrder.phone}</span>
                 </div>
               </div>
-            </c:forEach>
-
-          </div>
-          <div class="order__detail-contact">
-            <h3 class="order__detail-title order__detail-title--contact">
-              Shipping
-            </h3>
-            <div class="order__detail-contact-item">
-              <i class="bi bi-geo-alt"></i>
-              <span class="order__detail-contact-text"
-                >${lastestOrder.address}
-              </span>
-            </div>
-            <div class="order__detail-contact-item">
-              <i class="bi bi-telephone"></i>
-              <span class="order__detail-contact-text">${lastestOrder.phone}</span>
-            </div>
-          </div>
-          <div class="checkout__cart-info">
+              <div class="checkout__cart-info">
             <span class="checkout__cart-info-item-label"
-              >Subtotal (<span id="checkout-cart-count">${lastestOrder.getOrderItemsCount()}</span>)</span
+            >Subtotal (<span id="checkout-cart-count">${lastestOrder.getOrderItemsCount()}</span>)</span
             >
-            <span class="checkout__cart-info-item-value">$<fmt:formatNumber
-                    value="${lastestOrder.totalPrice}" minFractionDigits="2"/></span>
-            <span class="checkout__cart-info-item-label">Shipping</span>
-            <span class="checkout__cart-info-item-value">$0</span>
-            <span class="checkout__cart-info-item-label item-text--total"
-              >Total price</span
-            >
-            <span class="checkout__cart-info-item-value item-text--total"
-              >$<fmt:formatNumber
-                    value="${lastestOrder.totalPrice}" minFractionDigits="2"/></span
-            >
-          </div>
+                <span class="checkout__cart-info-item-value">$<fmt:formatNumber
+                        value="${lastestOrder.totalPrice}" minFractionDigits="2"/></span>
+                <span class="checkout__cart-info-item-label">Shipping</span>
+                <span class="checkout__cart-info-item-value">$0</span>
+                <span class="checkout__cart-info-item-label item-text--total"
+                >Total price</span
+                >
+                <span class="checkout__cart-info-item-value item-text--total"
+                >$<fmt:formatNumber
+                        value="${lastestOrder.totalPrice}" minFractionDigits="2"/></span
+                >
+              </div>
+            </c:otherwise>
+          </c:choose>
+
         </div>
       </div>
     </section>

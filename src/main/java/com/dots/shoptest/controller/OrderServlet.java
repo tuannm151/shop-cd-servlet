@@ -37,19 +37,17 @@ public class OrderServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         ArrayList<OrderDTO> orderDTOS = OrderDAO.getOrdersByUserId(user.getId());
         String url = "/order.jsp";
-        if(orderDTOS != null) {
+
+        if(orderDTOS == null) {
+            request.setAttribute("error", "Error while getting orders");
+        } else if(orderDTOS.size() == 0) {
+            request.setAttribute("isEmpty", true);
+        } else {
             request.setAttribute("orders", orderDTOS);
             Order lastestOrder = OrderDAO.getOrderById(orderDTOS.get(0).getId(), user.getId());
             request.setAttribute("lastestOrder", lastestOrder);
             request.setAttribute("cartCount", CartDAO.getCartItemsCount(user.getId()));
-
-            if(orderDTOS.size() == 0) {
-                request.setAttribute("empty", true);
-            }
-        } else {
-            request.setAttribute("error", "Error while getting orders");
         }
-
 
         getServletContext().getRequestDispatcher(url).forward(request, response);
     }
