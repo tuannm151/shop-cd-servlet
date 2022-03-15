@@ -71,14 +71,10 @@
         </div>
         <c:choose>
           <c:when test="${cart.totalSize == 0}">
-            <div class="error-message">
-              <h2>Cart is empty</h2>
-            </div>
+              <h2 class="error-message">Cart is empty</h2>
           </c:when>
             <c:when test="${error != null}">
-              <div class="error-message">
-                <h2>${error}</h2>
-              </div>
+                <h2 class="error-message">${error}</h2>
             </c:when>
           <c:otherwise>
             <ul class="cart__items">
