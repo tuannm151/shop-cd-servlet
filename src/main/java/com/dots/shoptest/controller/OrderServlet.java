@@ -22,7 +22,7 @@ public class OrderServlet extends HttpServlet {
         }
         request.setCharacterEncoding("UTF-8");
         request.setAttribute("orders", OrderDAO.getOrdersByUserId(user.getId()));
-        getServletContext().getRequestDispatcher("order.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/order.jsp").forward(request, response);
     }
 
     @Override

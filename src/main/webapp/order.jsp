@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -75,36 +77,20 @@
             <span class="order__header-item">Status</span>
           </div>
           <ul class="order__items">
-            <li class="order__item active">
-              <span class="order__item-info">OD001</span>
-              <span class="order__item-info">3 items</span>
-              <span class="order__item-info">15/03/2022</span>
-              <span class="order__item-info">$396.44</span>
-              <span class="order__item-info">Pending</span>
-              <button class="order__item-action">
-                <i class="bi bi-eye"></i> See detail
-              </button>
-            </li>
-            <li class="order__item">
-              <span class="order__item-info">OD001</span>
-              <span class="order__item-info">3 items</span>
-              <span class="order__item-info">15/03/2022</span>
-              <span class="order__item-info">$396.44</span>
-              <span class="order__item-info">Pending</span>
-              <button class="order__item-action">
-                <i class="bi bi-eye"></i> See detail
-              </button>
-            </li>
-            <li class="order__item">
-              <span class="order__item-info">OD001</span>
-              <span class="order__item-info">3 items</span>
-              <span class="order__item-info">15/03/2022</span>
-              <span class="order__item-info">$396.44</span>
-              <span class="order__item-info">Pending</span>
-              <button class="order__item-action">
-                <i class="bi bi-eye"></i> See detail
-              </button>
-            </li>
+            <c:forEach var="order" items="orders">
+              <li class="order__item active">
+                <span class="order__item-info">${order.id}</span>
+                <span class="order__item-info">${order.itemCount}</span>
+                <span class="order__item-info">${order.created_date}</span>
+                <span class="order__item-info">$<fmt:formatNumber
+                        value="${order.totalPrice}" minFractionDigits="2"/></span>
+                <span class="order__item-info">${order.status}</span>
+                <button class="order__item-action">
+                  <i class="bi bi-eye"></i> See detail
+                </button>
+              </li>
+            </c:forEach>
+
           </ul>
         </div>
         <div class="order__detail">
@@ -150,26 +136,28 @@
             <div class="order__detail-contact-item">
               <i class="bi bi-geo-alt"></i>
               <span class="order__detail-contact-text"
-                >Dai An - Ha Dong - Ha Noi
+                >${order.address}
               </span>
             </div>
             <div class="order__detail-contact-item">
               <i class="bi bi-telephone"></i>
-              <span class="order__detail-contact-text">0987654321</span>
+              <span class="order__detail-contact-text">${order.phone}</span>
             </div>
           </div>
           <div class="checkout__cart-info">
             <span class="checkout__cart-info-item-label"
               >Subtotal (<span id="checkout-cart-count">5}</span>)</span
             >
-            <span class="checkout__cart-info-item-value">$395.44</span>
+            <span class="checkout__cart-info-item-value">$<fmt:formatNumber
+                    value="${order.totalPrice}" minFractionDigits="2"/></span>
             <span class="checkout__cart-info-item-label">Shipping</span>
             <span class="checkout__cart-info-item-value">$0</span>
             <span class="checkout__cart-info-item-label item-text--total"
               >Total price</span
             >
             <span class="checkout__cart-info-item-value item-text--total"
-              >$395.44</span
+              >$<fmt:formatNumber
+                    value="${order.totalPrice}" minFractionDigits="2"/></span
             >
           </div>
         </div>

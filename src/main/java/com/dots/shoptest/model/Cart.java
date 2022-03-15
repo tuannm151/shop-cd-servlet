@@ -46,7 +46,7 @@ public class Cart {
   public BigDecimal caculateTotalPrice() {
     BigDecimal totalPrice = new BigDecimal(0);
     for (CartItem cartItem : cartItems) {
-      totalPrice = totalPrice.add(cartItem.getTotalSum());
+      totalPrice = totalPrice.add(cartItem.getTotalPrice());
     }
     return totalPrice;
   }

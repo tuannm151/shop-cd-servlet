@@ -39,7 +39,7 @@ public class CartItem {
     this.quantity = quantity;
   }
 
-  public BigDecimal getTotalSum() {
+  public BigDecimal getTotalPrice() {
     return product.getPrice().multiply(new BigDecimal(quantity));
   }
 }

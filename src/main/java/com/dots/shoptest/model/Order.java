@@ -1,8 +1,8 @@
 package com.dots.shoptest.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 public class Order {
     private int id;
@@ -11,6 +11,8 @@ public class Order {
     private String phone;
     private String status;
     private String created_date;
+    private BigDecimal totalPrice;
+    private int itemCount;
 
     public Order() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -59,6 +61,22 @@ public class Order {
 
     public String getCreatedDate() {
         return created_date;
+    }
+
+    public BigDecimal getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(BigDecimal totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public int getItemCount() {
+        return itemCount;
+    }
+
+    public void setItemCount(int itemCount) {
+        this.itemCount = itemCount;
     }
 
     public void setCreatedDate(String created_date) {
