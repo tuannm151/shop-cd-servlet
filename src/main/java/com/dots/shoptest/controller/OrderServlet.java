@@ -1,20 +1,32 @@
 package com.dots.shoptest.controller;
 
+import com.dots.shoptest.dao.CartDAO;
 import com.dots.shoptest.dao.OrderDAO;
 import com.dots.shoptest.dto.OrderDTO;
 import com.dots.shoptest.model.Order;
 import com.dots.shoptest.model.User;
+import com.google.gson.Gson;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Objects;
 
 @WebServlet(name = "OrderServlet", value = "/orders")
 public class OrderServlet extends HttpServlet {
+    private Gson gson = new Gson();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
+
+        if (Objects.equals(action, "getOrderJson")) {
+            doGet_OrderJson(request, response);
+            return;
+        }
+
         User user = (User) request.getSession().getAttribute("user");
         if (user == null) {
             response.sendRedirect(
@@ -29,6 +41,8 @@ public class OrderServlet extends HttpServlet {
             request.setAttribute("orders", orderDTOS);
             Order lastestOrder = OrderDAO.getOrderById(orderDTOS.get(0).getId(), user.getId());
             request.setAttribute("lastestOrder", lastestOrder);
+            request.setAttribute("cartCount", CartDAO.getCartItemsCount(user.getId()));
+
             if(orderDTOS.size() == 0) {
                 request.setAttribute("empty", true);
             }
@@ -38,6 +52,27 @@ public class OrderServlet extends HttpServlet {
 
 
         getServletContext().getRequestDispatcher(url).forward(request, response);
+    }
+
+    protected void doGet_OrderJson(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            response.sendRedirect(
+                    getServletContext().getContextPath() + "/login.jsp"
+            );
+            return;
+        }
+        String orderId = request.getParameter("orderId");
+        Order order = OrderDAO.getOrderById(Integer.parseInt(orderId), user.getId());
+        if(order == null) {
+            return;
+        }
+        String orderJsonString = gson.toJson(order);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
+        out.print(orderJsonString);
+        out.flush();
     }
 
     @Override

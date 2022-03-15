@@ -25,7 +25,8 @@
     <script defer>
       const ctx = "${pageContext.request.contextPath}";
     </script>
-    <script defer src="js/sticky.js"></script>
+    <script defer src="${pageContext.request.contextPath}/js/sticky.js"></script>
+    <script defer src="${pageContext.request.contextPath}/js/order.js"></script>
     <title>Orders</title>
   </head>
   <body>
@@ -78,9 +79,9 @@
           </div>
           <ul class="order__items">
             <c:forEach var="order" items="${orders}">
-              <li class="order__item active" data-order-id="${order.id}">
+              <li class="order__item" data-order-id="${order.id}">
                 <span class="order__item-info">OD${order.id}</span>
-                <span class="order__item-info">${order.itemCount}</span>
+                <span class="order__item-info">${order.itemCount} ${order.itemCount > 1 ? 'items' : 'item'}</span>
                 <span class="order__item-info">${order.createdDate}</span>
                 <span class="order__item-info">$<fmt:formatNumber
                         value="${order.totalPrice}" minFractionDigits="2"/></span>
@@ -94,7 +95,11 @@
           </ul>
         </div>
         <div class="order__detail">
-          <h3 class="order__detail-title">Order Summary</h3>
+          <div class="order__detail-header">
+            <h3 class="order__detail-title">Order Summary</h3>
+            <span class="order__detail-id">#OD${lastestOrder.id}</span>
+          </div>
+
           <div class="order__detail-content">
             <c:forEach var="orderItem" items="${lastestOrder.orderItems}">
               <div class="order__detail-item">

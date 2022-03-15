@@ -83,7 +83,7 @@
           <c:otherwise>
             <ul class="cart__items">
               <c:forEach var="cartItem" items="${cart.cartItems}">
-                <li class="cart__item">
+                <li class="cart__item" data-product-id="${cartItem.product.id}" data-product-price="${cartItem.product.price}" data-qty-value="${cartItem.quantity}">
                   <div class="cart__item-content">
                     <div class="cart__item-img">
                       <img
@@ -100,7 +100,7 @@
                 <span class="cart__item-price-value">$<fmt:formatNumber
                         value="${cartItem.product.price}" minFractionDigits="2"/></span>
                   </div>
-                  <div class="cart__item-qty" data-product-id="${cartItem.product.id}" data-product-price="${cartItem.product.price}" data-qty-value="${cartItem.quantity}">
+                  <div class="cart__item-qty">
                     <button class="btn-action cart__item-qty-btn" data-action="reduce">
                       <i class="bi bi-dash-lg"></i>
                     </button>

@@ -166,6 +166,7 @@ public class OrderDAO {
             ps.setInt(1, orderId);
             rs = ps.executeQuery();
             rs.next();
+            order.setId(orderId);
             order.setOrderItems(orderItems);
             order.setAddress(rs.getString("address"));
             order.setPhone(rs.getString("phone"));

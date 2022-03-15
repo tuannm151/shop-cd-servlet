@@ -42,27 +42,23 @@ const sendCartItemRequest = (action, productId) => {
 };
 
 cartItemsContainer.addEventListener("click", (e) => {
-  let buttonElement = e.target;
-  if (e.target.tagName === "I") {
-    buttonElement = e.target.parentElement;
-  }
-  if (!buttonElement.classList.contains("btn-action")) {
-    return;
-  }
-  const btnParentDOM = buttonElement.parentElement;
-  const qtyValueDOM = btnParentDOM.querySelector(".cart__item-qty-value");
-  const cartItemTotalValueDOM = btnParentDOM.parentElement.querySelector(
+  const buttonDOM = e.target.closest(".btn-action");
+  if(!buttonDOM) return;
+
+  const cartItemDOM = buttonDOM.closest(".cart__item");
+  const qtyValueDOM = cartItemDOM.querySelector(".cart__item-qty-value");
+  const cartItemTotalValueDOM = cartItemDOM.querySelector(
     ".cart__item-total-value"
   );
-  const qty = parseInt(btnParentDOM.dataset.qtyValue);
+  const qty = parseInt(cartItemDOM.dataset.qtyValue);
   const cartCount = parseInt(cartCountDOM.dataset.cartCount);
-  const productPrice = parseFloat(btnParentDOM.dataset.productPrice);
+  const productPrice = parseFloat(cartItemDOM.dataset.productPrice);
 
-  const productId = parseInt(btnParentDOM.dataset.productId);
+  const productId = parseInt(cartItemDOM.dataset.productId);
 
-  switch (buttonElement.dataset.action) {
+  switch (buttonDOM.dataset.action) {
     case "add":
-      changeQtyValue(qtyValueDOM, btnParentDOM, qty + 1);
+      changeQtyValue(qtyValueDOM, cartItemDOM, qty + 1);
       changeCartItemTotalValue(cartItemTotalValueDOM, productPrice * (qty + 1));
       changeCartCount(cartCount + 1);
       subtotalValue += productPrice;
@@ -73,7 +69,7 @@ cartItemsContainer.addEventListener("click", (e) => {
       if (qty === 1) {
         return;
       }
-      changeQtyValue(qtyValueDOM, btnParentDOM, qty - 1);
+      changeQtyValue(qtyValueDOM, cartItemDOM, qty - 1);
       changeCartItemTotalValue(cartItemTotalValueDOM, productPrice * (qty - 1));
       changeCartCount(cartCount - 1);
       subtotalValue -= productPrice;
@@ -82,15 +78,11 @@ cartItemsContainer.addEventListener("click", (e) => {
 
       break;
     case "delete":
-      const cartItemQtyDOM = btnParentDOM.querySelector(".cart__item-qty");
-      const cartItemQty = parseInt(cartItemQtyDOM.dataset.qtyValue);
-      const cartItemPrice = parseFloat(cartItemQtyDOM.dataset.productPrice);
-      const cartItemProductId = parseInt(cartItemQtyDOM.dataset.productId);
-      changeCartCount(cartCount - cartItemQty);
-      subtotalValue -= cartItemPrice * cartItemQty;
+      changeCartCount(cartCount - qty);
+      subtotalValue -= productPrice * qty;
       changeTotalPriceDOM(subtotalValue);
-      sendCartItemRequest("delete", cartItemProductId);
-      btnParentDOM.remove();
+      sendCartItemRequest("delete", productId);
+      cartItemDOM.remove();
       break;
     default:
       break;
