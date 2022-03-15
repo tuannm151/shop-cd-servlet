@@ -13,7 +13,16 @@ import java.io.IOException;
 public class OrderServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            response.sendRedirect(
+                    getServletContext().getContextPath() + "/login.jsp"
+            );
+            return;
+        }
+        request.setCharacterEncoding("UTF-8");
+        request.setAttribute("orders", OrderDAO.getOrdersByUserId(user.getId()));
+        getServletContext().getRequestDispatcher("order.jsp").forward(request, response);
     }
 
     @Override
@@ -35,10 +44,10 @@ public class OrderServlet extends HttpServlet {
         newOrder.setStatus("PENDING");
         Integer orderId = OrderDAO.initOrder(newOrder);
         int result = OrderDAO.createOrder(orderId, user.getId());
+        String url = "/cart";
         if(result == 1) {
-            response.sendRedirect(getServletContext().getContextPath() + "/orders");
-        } else {
-            response.sendRedirect(getServletContext().getContextPath() + "/cart");
+            url = "/orders";
         }
+        response.sendRedirect(getServletContext().getContextPath() + url);
     }
 }

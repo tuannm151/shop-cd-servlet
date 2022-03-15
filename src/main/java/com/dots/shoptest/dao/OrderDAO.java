@@ -75,4 +75,30 @@ public class OrderDAO {
         }
         return result;
     }
+    public static ArrayList<Order> getOrdersByUserId(Integer userId) {
+        ArrayList<Order> orders = null;
+        try {
+            Connection conn = DBConnection.getConnection();
+            String GET_ORDERS = "SELECT * FROM person_order WHERE person_id = ?";
+            PreparedStatement ps = conn.prepareStatement(GET_ORDERS);
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            orders = new ArrayList<>();
+            while (rs.next()) {
+                Order order = new Order();
+                order.setId(rs.getInt("id"));
+                order.setUserId(rs.getInt("person_id"));
+                order.setAddress(rs.getString("address"));
+                order.setPhone(rs.getString("phone"));
+                order.setStatus(rs.getString("status"));
+                order.setCreatedDate(rs.getString("created_date"));
+                orders.add(order);
+            }
+            conn.close();
+
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return orders;
+    }
 }

@@ -10,7 +10,7 @@ public class Order {
     private String address;
     private String phone;
     private String status;
-    private final String created_date;
+    private String created_date;
 
     public Order() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -59,6 +59,10 @@ public class Order {
 
     public String getCreatedDate() {
         return created_date;
+    }
+
+    public void setCreatedDate(String created_date) {
+        this.created_date = created_date;
     }
 }
 
