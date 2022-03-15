@@ -60,8 +60,8 @@
         <span
           class="cart__count"
           id="cartCount"
-          data-cart-count="${cart.totalSize}"
-          >0</span
+          data-cart-count="${cartCount}"
+          >${cartCount}</span
         >
       </div>
     </header>
@@ -77,11 +77,11 @@
             <span class="order__header-item">Status</span>
           </div>
           <ul class="order__items">
-            <c:forEach var="order" items="orders">
-              <li class="order__item active">
-                <span class="order__item-info">${order.id}</span>
+            <c:forEach var="order" items="${orders}">
+              <li class="order__item active" data-order-id="${order.id}">
+                <span class="order__item-info">OD${order.id}</span>
                 <span class="order__item-info">${order.itemCount}</span>
-                <span class="order__item-info">${order.created_date}</span>
+                <span class="order__item-info">${order.createdDate}</span>
                 <span class="order__item-info">$<fmt:formatNumber
                         value="${order.totalPrice}" minFractionDigits="2"/></span>
                 <span class="order__item-info">${order.status}</span>
@@ -96,38 +96,26 @@
         <div class="order__detail">
           <h3 class="order__detail-title">Order Summary</h3>
           <div class="order__detail-content">
-            <div class="order__detail-item">
-              <div class="order__detail-img">
-                <img src="https://via.placeholder.com/150" alt="" />
-              </div>
-              <div class="order__detail-info">
-                <div class="order__detail-name">
-                  <span>CD 1</span>
+            <c:forEach var="orderItem" items="${lastestOrder.orderItems}">
+              <div class="order__detail-item">
+                <div class="order__detail-img">
+                  <img src="${orderItem.product.imageUrl}" alt="A product" />
                 </div>
-                <div class="order__detail-price">
-                  <span>$396.44</span>
-                </div>
-                <div class="order__detail-quantity">
-                  <span>Quantity: 1</span>
-                </div>
-              </div>
-            </div>
-            <div class="order__detail-item">
-              <div class="order__detail-img">
-                <img src="https://via.placeholder.com/150" alt="" />
-              </div>
-              <div class="order__detail-info">
-                <div class="order__detail-name">
-                  <span>CD 1</span>
-                </div>
-                <div class="order__detail-price">
-                  <span>$396.44</span>
-                </div>
-                <div class="order__detail-quantity">
-                  <span>Quantity: 1</span>
+                <div class="order__detail-info">
+                  <div class="order__detail-name">
+                    <span>${orderItem.product.name}</span>
+                  </div>
+                  <div class="order__detail-price">
+                    <span>$<fmt:formatNumber
+                            value="${orderItem.getTotalPrice()}" minFractionDigits="2"/></span>
+                  </div>
+                  <div class="order__detail-quantity">
+                    <span>Quantity: ${orderItem.quantity}</span>
+                  </div>
                 </div>
               </div>
-            </div>
+            </c:forEach>
+
           </div>
           <div class="order__detail-contact">
             <h3 class="order__detail-title order__detail-title--contact">
@@ -136,20 +124,20 @@
             <div class="order__detail-contact-item">
               <i class="bi bi-geo-alt"></i>
               <span class="order__detail-contact-text"
-                >${order.address}
+                >${lastestOrder.address}
               </span>
             </div>
             <div class="order__detail-contact-item">
               <i class="bi bi-telephone"></i>
-              <span class="order__detail-contact-text">${order.phone}</span>
+              <span class="order__detail-contact-text">${lastestOrder.phone}</span>
             </div>
           </div>
           <div class="checkout__cart-info">
             <span class="checkout__cart-info-item-label"
-              >Subtotal (<span id="checkout-cart-count">5}</span>)</span
+              >Subtotal (<span id="checkout-cart-count">${lastestOrder.getOrderItemsCount()}</span>)</span
             >
             <span class="checkout__cart-info-item-value">$<fmt:formatNumber
-                    value="${order.totalPrice}" minFractionDigits="2"/></span>
+                    value="${lastestOrder.totalPrice}" minFractionDigits="2"/></span>
             <span class="checkout__cart-info-item-label">Shipping</span>
             <span class="checkout__cart-info-item-value">$0</span>
             <span class="checkout__cart-info-item-label item-text--total"
@@ -157,7 +145,7 @@
             >
             <span class="checkout__cart-info-item-value item-text--total"
               >$<fmt:formatNumber
-                    value="${order.totalPrice}" minFractionDigits="2"/></span
+                    value="${lastestOrder.totalPrice}" minFractionDigits="2"/></span
             >
           </div>
         </div>

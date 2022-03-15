@@ -1,9 +1,8 @@
 package com.dots.shoptest.dao;
 
 import com.dots.shoptest.db.DBConnection;
-import com.dots.shoptest.model.Cart;
-import com.dots.shoptest.model.CartItem;
-import com.dots.shoptest.model.Product;
+import com.dots.shoptest.model.*;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -89,7 +88,7 @@ public class CartDAO {
     Cart cart = null;
     try {
       String GET_CART_ITEMS_QUERY_POSTGRESQL =
-        "SELECT cart_item.id, product_id, quantity, name, description, price, img_url from cart_item, product WHERE cart_item.product_id = product.id AND cart_item.person_id = ?";
+        "SELECT cart_item.id, product_id, quantity, name, description, price, img_url from cart_item, product WHERE cart_item.product_id = product.id AND cart_item.person_id = ? ORDER BY id DESC";
       Connection conn = DBConnection.getConnection();
       PreparedStatement ps = conn.prepareStatement(
         GET_CART_ITEMS_QUERY_POSTGRESQL
@@ -117,4 +116,6 @@ public class CartDAO {
     }
     return cart;
   }
+
+
 }

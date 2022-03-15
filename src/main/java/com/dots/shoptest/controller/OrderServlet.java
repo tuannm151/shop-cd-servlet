@@ -1,6 +1,7 @@
 package com.dots.shoptest.controller;
 
 import com.dots.shoptest.dao.OrderDAO;
+import com.dots.shoptest.dto.OrderDTO;
 import com.dots.shoptest.model.Order;
 import com.dots.shoptest.model.User;
 
@@ -8,6 +9,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.util.ArrayList;
 
 @WebServlet(name = "OrderServlet", value = "/orders")
 public class OrderServlet extends HttpServlet {
@@ -21,8 +23,21 @@ public class OrderServlet extends HttpServlet {
             return;
         }
         request.setCharacterEncoding("UTF-8");
-        request.setAttribute("orders", OrderDAO.getOrdersByUserId(user.getId()));
-        getServletContext().getRequestDispatcher("/order.jsp").forward(request, response);
+        ArrayList<OrderDTO> orderDTOS = OrderDAO.getOrdersByUserId(user.getId());
+        String url = "/order.jsp";
+        if(orderDTOS != null) {
+            request.setAttribute("orders", orderDTOS);
+            Order lastestOrder = OrderDAO.getOrderById(orderDTOS.get(0).getId(), user.getId());
+            request.setAttribute("lastestOrder", lastestOrder);
+            if(orderDTOS.size() == 0) {
+                request.setAttribute("empty", true);
+            }
+        } else {
+            request.setAttribute("error", "Error while getting orders");
+        }
+
+
+        getServletContext().getRequestDispatcher(url).forward(request, response);
     }
 
     @Override
@@ -37,17 +52,14 @@ public class OrderServlet extends HttpServlet {
             );
             return;
         }
-        Order newOrder = new Order();
-        newOrder.setUserId(user.getId());
-        newOrder.setAddress(address);
-        newOrder.setPhone(phone);
-        newOrder.setStatus("PENDING");
-        Integer orderId = OrderDAO.initOrder(newOrder);
+        OrderDTO newOrderDTO = new OrderDTO();
+        newOrderDTO.setUserId(user.getId());
+        newOrderDTO.setAddress(address);
+        newOrderDTO.setPhone(phone);
+        newOrderDTO.setStatus("pending");
+        Integer orderId = OrderDAO.initOrder(newOrderDTO);
         int result = OrderDAO.createOrder(orderId, user.getId());
-        String url = "/cart";
-        if(result == 1) {
-            url = "/orders";
-        }
+        String url = "/orders";
         response.sendRedirect(getServletContext().getContextPath() + url);
     }
 }

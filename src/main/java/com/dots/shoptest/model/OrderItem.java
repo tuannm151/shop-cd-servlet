@@ -7,7 +7,6 @@ public class OrderItem {
     private Product product;
     private BigDecimal price;
     private int quantity;
-    private int orderId;
 
     public OrderItem() {
     }
@@ -49,14 +48,6 @@ public class OrderItem {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
-    }
-
-    public int getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
     }
 
     public BigDecimal getTotalPrice() {

@@ -111,7 +111,7 @@
                   </div>
                   <div class="cart__item-total">
                 <span class="cart__item-total-value">$<fmt:formatNumber
-                        value="${cartItem.getTotalSum()}" minFractionDigits="2"/></span>
+                        value="${cartItem.getTotalPrice()}" minFractionDigits="2"/></span>
                   </div>
                   <button class="btn-action cart__item-remove" data-action="delete">
                     <i class="bi bi-x-lg"></i>

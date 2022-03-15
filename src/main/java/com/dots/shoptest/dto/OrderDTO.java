@@ -1,19 +1,22 @@
-package com.dots.shoptest.model;
+package com.dots.shoptest.dto;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
-public class Order {
+public class OrderDTO {
     private int id;
-    private ArrayList<OrderItem> orderItems;
+    private int userId;
     private String address;
     private String phone;
     private String status;
     private String createdDate;
     private BigDecimal totalPrice;
+    private int itemCount;
 
-    public Order() {
-        orderItems = new ArrayList<OrderItem>();
+    public OrderDTO() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        this.createdDate = LocalDate.now().format(formatter);
     }
 
     public int getId() {
@@ -22,14 +25,6 @@ public class Order {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public ArrayList<OrderItem> getOrderItems() {
-        return orderItems;
-    }
-
-    public void setOrderItems(ArrayList<OrderItem> orderItems) {
-        this.orderItems = orderItems;
     }
 
     public String getAddress() {
@@ -60,10 +55,6 @@ public class Order {
         return createdDate;
     }
 
-    public void setCreatedDate(String createdDate) {
-        this.createdDate = createdDate;
-    }
-
     public BigDecimal getTotalPrice() {
         return totalPrice;
     }
@@ -72,15 +63,26 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
-    public void addOrderItem(OrderItem orderItem) {
-        orderItems.add(orderItem);
+    public int getUserId() {
+        return userId;
     }
 
-    public int getOrderItemsCount() {
-        int total = 0;
-        for (OrderItem orderItem : orderItems) {
-            total += orderItem.getQuantity();
-        }
-        return total;
-    };
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public int getItemCount() {
+        return itemCount;
+    }
+
+    public void setItemCount(int itemCount) {
+        this.itemCount = itemCount;
+    }
+
+    public void setCreatedDate(String created_date) {
+        this.createdDate = created_date;
+    }
+
 }
+
+
