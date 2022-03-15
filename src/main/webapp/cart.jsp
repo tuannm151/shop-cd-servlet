@@ -39,16 +39,20 @@
 
       <ul class="nav">
         <li class="nav__item">
-          <a href="${pageContext.request.contextPath}/" class="nav__link">Home</a>
+          <a href="${pageContext.request.contextPath}/" class="nav__link"
+          >Home</a
+          >
         </li>
         <li class="nav__item">
-          <a href="${pageContext.request.contextPath}/cart" class="nav__link">Cart</a>
+          <a href="${pageContext.request.contextPath}/cart" class="nav__link"
+          >Cart</a
+          >
         </li>
         <li class="nav__item">
-          <a href="#" class="nav__link">My Orders</a>
+          <a href="${pageContext.request.contextPath}/orders" class="nav__link">My Orders</a>
         </li>
         <li class="nav__item">
-          <a href="#" class="nav__link">Logout</a>
+          <a href="${pageContext.request.contextPath}/logout" class="nav__link">Logout</a>
         </li>
       </ul>
       <div class="cart-logo">
@@ -124,7 +128,7 @@
         <div class="cart-info"></div>
       </div>
     </section>
-    <div class="checkout-container">
+    <form method="post" action="${pageContext.request.contextPath}/orders" class="checkout-container">
       <div class="checkout__account-info">
         <h4 class="checkout__header">Account</h4>
         <span class="checkout__account-info-text">${sessionScope.user.name}</span>
@@ -170,9 +174,9 @@
           <span class="checkout__cart-info-item-value" id="total">$<fmt:formatNumber
                   value="${cart.totalPrice}" minFractionDigits="2"/></span>
         </div>
-        <button class="checkout__cart-btn">Place Order <span id="total-value">$<fmt:formatNumber
+        <button type="submit" class="checkout__cart-btn">Place Order <span id="total-value">$<fmt:formatNumber
                 value="${cart.totalPrice}" minFractionDigits="2"/></span></button>
       </div>
-    </div>
+    </form>
   </body>
 </html>

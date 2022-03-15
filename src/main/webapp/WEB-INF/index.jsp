@@ -35,16 +35,20 @@
 
       <ul class="nav">
         <li class="nav__item">
-          <a href="${pageContext.request.contextPath}/" class="nav__link">Home</a>
+          <a href="${pageContext.request.contextPath}/" class="nav__link"
+          >Home</a
+          >
         </li>
         <li class="nav__item">
-          <a href="${pageContext.request.contextPath}/cart" class="nav__link">Cart</a>
+          <a href="${pageContext.request.contextPath}/cart" class="nav__link"
+          >Cart</a
+          >
         </li>
         <li class="nav__item">
-          <a href="#" class="nav__link">My Orders</a>
+          <a href="${pageContext.request.contextPath}/orders" class="nav__link">My Orders</a>
         </li>
         <li class="nav__item">
-          <a href="#" class="nav__link">Logout</a>
+          <a href="${pageContext.request.contextPath}/logout" class="nav__link">Logout</a>
         </li>
       </ul>
       <div class="cart-logo">
