@@ -174,22 +174,24 @@
           </div>
         </div>
       </div>
+        <c:if test="${cart.totalSize ne 0}">
+            <div class="checkout__cart-info">
+                <h4 class="checkout__header">Order Summary</h4>
+                <div class="checkout__cart-info-item">
+                    <span class="checkout__cart-info-item-label">Subtotal (<span id="checkout-cart-count">${cart.totalSize}</span>)</span>
+                    <span class="checkout__cart-info-item-value" data-subtotal="${cart.totalPrice}" id="subtotal">$<fmt:formatNumber
+                            value="${cart.totalPrice}" minFractionDigits="2"/></span>
+                    <span class="checkout__cart-info-item-label">Shipping</span>
+                    <span class="checkout__cart-info-item-value">$0</span>
+                    <span class="checkout__cart-info-item-label">Total</span>
+                    <span class="checkout__cart-info-item-value" id="total">$<fmt:formatNumber
+                            value="${cart.totalPrice}" minFractionDigits="2"/></span>
+                </div>
+                <button type="submit" class="checkout__cart-btn">Place Order <span id="total-value">$<fmt:formatNumber
+                        value="${cart.totalPrice}" minFractionDigits="2"/></span></button>
+            </div>
+        </c:if>
 
-      <div class="checkout__cart-info">
-        <h4 class="checkout__header">Order Summary</h4>
-        <div class="checkout__cart-info-item">
-          <span class="checkout__cart-info-item-label">Subtotal (<span id="checkout-cart-count">${cart.totalSize}</span>)</span>
-          <span class="checkout__cart-info-item-value" data-subtotal="${cart.totalPrice}" id="subtotal">$<fmt:formatNumber
-                  value="${cart.totalPrice}" minFractionDigits="2"/></span>
-          <span class="checkout__cart-info-item-label">Shipping</span>
-          <span class="checkout__cart-info-item-value">$0</span>
-          <span class="checkout__cart-info-item-label">Total</span>
-          <span class="checkout__cart-info-item-value" id="total">$<fmt:formatNumber
-                  value="${cart.totalPrice}" minFractionDigits="2"/></span>
-        </div>
-        <button type="submit" class="checkout__cart-btn">Place Order <span id="total-value">$<fmt:formatNumber
-                value="${cart.totalPrice}" minFractionDigits="2"/></span></button>
-      </div>
     </form>
   </body>
 </html>
