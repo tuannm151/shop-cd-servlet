@@ -190,8 +190,11 @@
 
   .order__content {
     margin-top: 80px;
-    overflow-x: scroll;
+    overflow-x: auto;
     order: 2;
+  }
+  .order__items {
+    width: max-content;
   }
   .order__detail-content {
     display: grid;
