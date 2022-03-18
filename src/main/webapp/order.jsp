@@ -143,7 +143,7 @@
                       </div>
                       <div class="order__detail-price">
                     <span>$<fmt:formatNumber
-                            value="${orderItem.getTotalPrice()}" minFractionDigits="2"/></span>
+                            value="${orderItem.totalPrice}" minFractionDigits="2"/></span>
                       </div>
                       <div class="order__detail-quantity">
                         <span>Quantity: ${orderItem.quantity}</span>

@@ -53,4 +53,5 @@ public class OrderItem {
   public BigDecimal getTotalPrice() {
     return price.multiply(new BigDecimal(quantity));
   }
+
 }
