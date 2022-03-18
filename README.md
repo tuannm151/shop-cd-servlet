@@ -19,10 +19,9 @@ A website selling CD music albums.
  
 *  13/3, thực hiện xử lí việc thao tác với các sản phẩm của giỏ hàng (thêm sửa xoá) bằng js thông qua bắt sự kiện DOM
 		*  đồng thời fetch dữ liệu về phía servlet để đồng bộ với server và csdl.
-
+*  15/3, thiết kế và hoàn thiện chức năng xem trạng thái các đơn hàng đã đặt.
 
 *	 Chức năng dự kiến sẽ thêm: 
-		*  Xem đơn đã đặt
 		*  Phân quyền người dùng
 		*  Trang thêm sửa xoá sản phẩm cho admin
     
