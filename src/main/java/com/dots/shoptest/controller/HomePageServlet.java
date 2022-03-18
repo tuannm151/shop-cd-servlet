@@ -18,15 +18,16 @@ public class HomePageServlet extends HttpServlet {
     HttpServletRequest request,
     HttpServletResponse response
   ) throws ServletException, IOException {
-    String url = "/login.jsp";
-    User user = (User) request.getSession().getAttribute("user");
-    if (user == null) {
-      response.sendRedirect(getServletContext().getContextPath() + url);
-      return;
-    }
-    url = "/WEB-INF/index.jsp";
+    String url = "/WEB-INF/index.jsp";
+
     ArrayList<Product> products = ProductDAO.getAllProducts();
-    int cartCount = CartDAO.getCartItemsCount(user.getId());
+
+    int cartCount = 0;
+    User user = (User) request.getSession().getAttribute("user");
+    if(user != null) {
+       cartCount =  CartDAO.getCartItemsCount(user.getId());
+    }
+
     if (products != null) {
       request.setAttribute("products", products);
       request.setAttribute("cartCount", cartCount);

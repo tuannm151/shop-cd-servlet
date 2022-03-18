@@ -43,7 +43,7 @@ const sendCartItemRequest = (action, productId) => {
 
 cartItemsContainer.addEventListener("click", (e) => {
   const buttonDOM = e.target.closest(".btn-action");
-  if(!buttonDOM) return;
+  if (!buttonDOM) return;
 
   const cartItemDOM = buttonDOM.closest(".cart__item");
   const qtyValueDOM = cartItemDOM.querySelector(".cart__item-qty-value");

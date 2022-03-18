@@ -35,6 +35,11 @@
         <div class="logo">
           <i class="bi bi-bootstrap icon"></i>
         </div>
+        <div class="hamburger">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
         <span class="user-email">/ ${sessionScope.user.email}</span>
       </div>
 
@@ -52,9 +57,18 @@
         <li class="nav__item">
           <a href="${pageContext.request.contextPath}/orders" class="nav__link">My Orders</a>
         </li>
-        <li class="nav__item">
-          <a href="${pageContext.request.contextPath}/logout" class="nav__link">Logout</a>
-        </li>
+        <c:choose>
+          <c:when test="${empty sessionScope.user}">
+            <li class="nav__item">
+              <a href="${pageContext.request.contextPath}/login" class="nav__link">Login</a>
+            </li>
+          </c:when>
+          <c:otherwise>
+            <li class="nav__item">
+              <a href="${pageContext.request.contextPath}/logout" class="nav__link">Logout</a>
+            </li>
+          </c:otherwise>
+        </c:choose>
       </ul>
       <div class="cart-logo">
         <i class="bi bi-cart-check cart__icon"></i>

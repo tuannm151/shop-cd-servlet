@@ -36,33 +36,27 @@ public class CartServlet extends HttpServlet {
   protected void doPost(
     HttpServletRequest request,
     HttpServletResponse response
-  ) throws ServletException, IOException {
+  )  {
+    User user = (User) request.getSession().getAttribute("user");
+    if (user == null) {
+      return;
+    }
+    int productId = Integer.parseInt(request.getParameter("productId"));
     String action = request.getParameter("action");
     if (action != null) {
       if (action.equals("add")) {
-        doPost_Add(request, response);
+        doPost_Add(user, productId);
       }
       if (action.equals("reduce")) {
-        doPost_Reduce(request, response);
+        doPost_Reduce(user, productId);
       }
       if (action.equals("delete")) {
-        doPost_Delete(request, response);
+        doPost_Delete(user, productId);
       }
     }
   }
 
-  protected void doPost_Add(
-    HttpServletRequest request,
-    HttpServletResponse response
-  ) throws ServletException, IOException {
-    int productId = Integer.parseInt(request.getParameter("productId"));
-    User user = (User) request.getSession().getAttribute("user");
-    if (user == null) {
-      response.sendRedirect(
-        getServletContext().getContextPath() + "/login.jsp"
-      );
-      return;
-    }
+  protected void doPost_Add(User user, int productId) {
     int result = CartDAO.addToCart(user.getId(), productId);
     if (result == 1) {
       System.out.println("Added to cart");
@@ -71,18 +65,7 @@ public class CartServlet extends HttpServlet {
     }
   }
 
-  protected void doPost_Reduce(
-    HttpServletRequest request,
-    HttpServletResponse response
-  ) throws ServletException, IOException {
-    int productId = Integer.parseInt(request.getParameter("productId"));
-    User user = (User) request.getSession().getAttribute("user");
-    if (user == null) {
-      response.sendRedirect(
-        getServletContext().getContextPath() + "/login.jsp"
-      );
-      return;
-    }
+  protected void doPost_Reduce(User user, int productId) {
     int result = CartDAO.reduceCartItemQuantity(user.getId(), productId);
     if (result == 1) {
       System.out.println("Reduced cart item quantity");
@@ -91,18 +74,7 @@ public class CartServlet extends HttpServlet {
     }
   }
 
-  protected void doPost_Delete(
-    HttpServletRequest request,
-    HttpServletResponse response
-  ) throws ServletException, IOException {
-    int productId = Integer.parseInt(request.getParameter("productId"));
-    User user = (User) request.getSession().getAttribute("user");
-    if (user == null) {
-      response.sendRedirect(
-        getServletContext().getContextPath() + "/login.jsp"
-      );
-      return;
-    }
+  protected void doPost_Delete(User user, int productId) {
     int result = CartDAO.deleteCartItem(user.getId(), productId);
     if (result == 1) {
       System.out.println("Deleted from cart");

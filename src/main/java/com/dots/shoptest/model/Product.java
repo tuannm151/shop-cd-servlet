@@ -81,6 +81,6 @@ public class Product {
   }
 
   public String getFormattedCategoryName() {
-    return categoryName.replaceAll("\\s+","").toLowerCase();
+    return categoryName.replaceAll("\\s+", "").toLowerCase();
   }
 }

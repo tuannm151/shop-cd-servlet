@@ -18,6 +18,7 @@
     />
     <script defer>const ctx = "${pageContext.request.contextPath}"</script>
     <script defer src="${pageContext.request.contextPath}/js/index.js"></script>
+    <script defer src="${pageContext.request.contextPath}/js/sticky.js"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/global.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/normalize.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/header.css">
@@ -25,12 +26,19 @@
     <title>ShopTest</title>
   </head>
   <body>
-    <header class="header">
+    <header class="header" id="header">
       <div class="header-left">
         <div class="logo">
           <i class="bi bi-bootstrap icon"></i>
         </div>
-        <span class="user-email">/ ${sessionScope.user.email} </span>
+        <div class="hamburger">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+        <c:if test="${!empty sessionScope.user}">
+          <span class="user-email">/ ${sessionScope.user.email} </span>
+        </c:if>
       </div>
 
       <ul class="nav">
@@ -47,11 +55,20 @@
         <li class="nav__item">
           <a href="${pageContext.request.contextPath}/orders" class="nav__link">My Orders</a>
         </li>
-        <li class="nav__item">
-          <a href="${pageContext.request.contextPath}/logout" class="nav__link">Logout</a>
-        </li>
+        <c:choose>
+          <c:when test="${empty sessionScope.user}">
+            <li class="nav__item">
+              <a href="${pageContext.request.contextPath}/login" class="nav__link">Login</a>
+            </li>
+          </c:when>
+          <c:otherwise>
+            <li class="nav__item">
+              <a href="${pageContext.request.contextPath}/logout" class="nav__link">Logout</a>
+            </li>
+          </c:otherwise>
+        </c:choose>
       </ul>
-      <div class="cart-logo">
+      <div class="cart-logo ${empty sessionScope.user ? "notAuth" : ""}">
         <i class="bi bi-cart-check cart__icon"></i>
         <span class="cart__count" id="cartCount" data-cart-count="${cartCount}">${cartCount}</span>
       </div>

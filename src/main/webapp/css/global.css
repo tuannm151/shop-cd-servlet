@@ -2,11 +2,14 @@
   --bg-color: #effffd;
   --sub-color--low: #b8fff9;
   --sub-color--high: #85f4ff;
-  --sub-color--dark: #EEA4B8;
+  --sub-color--dark: #eea4b8;
   --sub-color--dark-2: #d25b83;
   --text-color-dark: #292f33;
   --text-color-light: #bbb;
   --color-dark: #0d0c22;
+  --small-tablet: 768px;
+  --large-mobile: 650px;
+  --small-laptop: 1024px;
 }
 body {
   color: var(--text-color-dark);
@@ -18,7 +21,6 @@ html {
 * {
   box-sizing: border-box;
 }
-
 
 h1,
 h2,
@@ -38,7 +40,6 @@ ul {
   font-weight: 300;
   color: #bbb;
 }
-
 
 .lds-ring {
   display: block;

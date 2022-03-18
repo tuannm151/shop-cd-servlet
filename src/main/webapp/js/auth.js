@@ -3,7 +3,7 @@ const nameInputDOM = document.querySelector("#name");
 const emailInputDOM = document.querySelector("#email");
 const passwordInputDOM = document.querySelector("#password");
 const rePasswordInputDOM = document.querySelector("#repassword");
-const formAlertTextDOM = document.querySelector(".form-alert-text")
+const formAlertTextDOM = document.querySelector(".form-alert-text");
 
 const setErrorFor = (input, message) => {
   const fieldGroup = input.parentElement;
@@ -62,7 +62,8 @@ formDOM.addEventListener("submit", (e) => {
   const repassword = rePasswordInputDOM?.value;
   console.log(name, email, password, repassword);
   const nameIsValid = name !== undefined ? checkNameIsValid(name) : true;
-  const repasswordIsValid = repassword !== undefined ? checkRePasswordIsValid(repassword) : true;
+  const repasswordIsValid =
+    repassword !== undefined ? checkRePasswordIsValid(repassword) : true;
   const emailIsValid = checkEmailIsValid(email);
   const passwordIsValid = checkPasswordIsValid(password);
   console.log(nameIsValid, emailIsValid, passwordIsValid, repasswordIsValid);
@@ -72,7 +73,7 @@ formDOM.addEventListener("submit", (e) => {
 });
 
 nameInputDOM?.addEventListener("input", (e) => {
-  if(nameInputDOM.classList.contains("has-value")) {
+  if (nameInputDOM.classList.contains("has-value")) {
     return;
   }
   nameInputDOM.className = "field-group__input has-value";
@@ -92,7 +93,7 @@ emailInputDOM.addEventListener("input", (e) => {
   formAlertTextDOM?.firstChild.remove();
 });
 passwordInputDOM.addEventListener("input", (e) => {
-  if(passwordInputDOM.classList.contains("has-value")){
+  if (passwordInputDOM.classList.contains("has-value")) {
     return;
   }
   passwordInputDOM.className = "field-group__input has-value";
@@ -104,7 +105,7 @@ passwordInputDOM.addEventListener("input", (e) => {
 });
 
 rePasswordInputDOM?.addEventListener("input", (e) => {
-  if(rePasswordInputDOM.classList.contains("has-value")){
+  if (rePasswordInputDOM.classList.contains("has-value")) {
     return;
   }
   rePasswordInputDOM.className = "field-group__input has-value";

@@ -2,7 +2,6 @@ package com.dots.shoptest.dao;
 
 import com.dots.shoptest.db.DBConnection;
 import com.dots.shoptest.model.*;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class CartDAO {
+
   public static boolean isCartEmpty(int userId) {
     boolean isEmpty = false;
     try {
@@ -26,6 +26,7 @@ public class CartDAO {
     }
     return isEmpty;
   }
+
   public static int getCartItemsCount(int userId) {
     int count = -1;
     try {
@@ -131,6 +132,4 @@ public class CartDAO {
     }
     return cart;
   }
-
-
 }
