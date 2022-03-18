@@ -138,6 +138,7 @@
     top: 40px;
     border-radius: 10px;
     transition: 0.3s;
+    z-index: 3;
   }
   .nav.active {
     left: 0;

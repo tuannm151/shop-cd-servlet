@@ -79,7 +79,7 @@
       <div class="cart-container">
         <div class="cart__header">
           <div class="cart__header-title">Product</div>
-          <div class="cart__header-title">Price</div>
+          <div class="cart__header-title cart__header-title--price">Price</div>
           <div class="cart__header-title">Qty</div>
           <div class="cart__header-title">Total</div>
           <div class="cart__header-action"></div>
@@ -105,6 +105,8 @@
                     <div class="cart__item-info">
                       <h3 class="cart__item-title">${cartItem.product.name}</h3>
                       <p class="cart__item-description">${cartItem.product.description}</p>
+                        <span class="cart__item-info-price">Price: $<fmt:formatNumber
+                                value="${cartItem.product.price}" minFractionDigits="2"/></span>
                     </div>
                   </div>
                   <div class="cart__item-price">

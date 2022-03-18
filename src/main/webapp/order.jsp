@@ -117,6 +117,7 @@
             </c:choose>
 
           </ul>
+          <span class="order-instruction">Click at an order to show detail.</span>
         </div>
         <div class="order__detail">
           <c:choose>

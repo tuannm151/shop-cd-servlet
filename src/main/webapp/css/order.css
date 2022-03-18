@@ -120,6 +120,7 @@
   gap: 5px;
   font-size: 14px;
   justify-content: space-between;
+  flex: 1;
 }
 .order__detail-price {
   font-weight: 600;
@@ -171,3 +172,70 @@
   font-size: 18px;
   font-weight: 600;
 }
+
+.order-instruction {
+  display: none;
+  font-size: 14px;
+  color: #aaa;
+  margin: 20px;
+}
+
+@media only screen and (max-width: 1366px){
+  .order-container {
+    flex-direction: column
+  }
+  .order__title {
+    display: none;
+  }
+
+  .order__content {
+    margin-top: 80px;
+    overflow-x: scroll;
+    order: 2;
+  }
+  .order__detail-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  }
+  .order__detail {
+    margin-left: 0;
+  }
+  .order__detail {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 768px){
+  .order__item-action {
+    display: none;
+  }
+  .order__item {
+    grid-template-columns: repeat(5, 100px) ;
+    grid-gap: 0 15px;
+  }
+  .order__header {
+    grid-template-columns: repeat(5, 100px);
+    grid-gap: 0 15px;
+  }
+  .order__detail-content {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  .order__detail-contact-text {
+    font-size: 14px;
+  }
+  .order__detail-contact-item i {
+    font-size: 18px;
+  }
+  .checkout__cart-info-item-label {
+    font-size: 14px;
+  }
+  .checkout__cart-info-item-value {
+    font-size: 14px;
+  }
+  .order-instruction {
+    display: block;
+  }
+}
+
+
