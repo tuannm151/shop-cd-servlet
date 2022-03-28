@@ -137,10 +137,9 @@
           </c:otherwise>
         </c:choose>
 
-
-        <div class="cart-info"></div>
       </div>
     </section>
+    <c:if test="${cart.totalSize ne 0}">
     <form method="post" action="${pageContext.request.contextPath}/orders" class="checkout-container">
       <div class="checkout__account-info">
         <h4 class="checkout__header">Account</h4>
@@ -174,7 +173,7 @@
           </div>
         </div>
       </div>
-        <c:if test="${cart.totalSize ne 0}">
+
             <div class="checkout__cart-info">
                 <h4 class="checkout__header">Order Summary</h4>
                 <div class="checkout__cart-info-item">
@@ -190,8 +189,7 @@
                 <button type="submit" class="checkout__cart-btn">Place Order <span id="total-value">$<fmt:formatNumber
                         value="${cart.totalPrice}" minFractionDigits="2"/></span></button>
             </div>
-        </c:if>
-
     </form>
+    </c:if>
   </body>
 </html>

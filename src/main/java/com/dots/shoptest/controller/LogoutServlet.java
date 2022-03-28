@@ -15,7 +15,16 @@ public class LogoutServlet extends HttpServlet {
   ) throws ServletException, IOException {
     HttpSession session = request.getSession();
     session.invalidate();
-    response.sendRedirect(getServletContext().getContextPath() + "/login.jsp");
+    Cookie[] cookies = request.getCookies();
+    if (cookies != null) {
+      for (Cookie cookie : cookies) {
+        if (cookie.getName().equals("email")) {
+          cookie.setMaxAge(0);
+          response.addCookie(cookie);
+        }
+      }
+    }
+    response.sendRedirect(getServletContext().getContextPath() + "/login");
   }
 
   @Override

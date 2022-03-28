@@ -1,5 +1,6 @@
 package com.dots.shoptest.dao;
 
+import com.dots.shoptest.db.ConnectionPool;
 import com.dots.shoptest.db.DBConnection;
 import com.dots.shoptest.model.*;
 import java.sql.Connection;
@@ -13,34 +14,39 @@ public class CartDAO {
   public static boolean isCartEmpty(int userId) {
     boolean isEmpty = false;
     try {
-      Connection connection = DBConnection.getConnection();
+      ConnectionPool pool = ConnectionPool.getInstance();
+      Connection conn = pool.getConnection();
       String sql = "SELECT * FROM cart_item WHERE person_id = ?";
-      PreparedStatement preparedStatement = connection.prepareStatement(sql);
+      PreparedStatement preparedStatement = conn.prepareStatement(sql);
       preparedStatement.setInt(1, userId);
       ResultSet resultSet = preparedStatement.executeQuery();
       if (!resultSet.next()) {
         isEmpty = true;
       }
-    } catch (SQLException | ClassNotFoundException e) {
+      pool.freeConnection(conn);
+    } catch (SQLException  e) {
       e.printStackTrace();
     }
     return isEmpty;
   }
 
-  public static int getCartItemsCount(int userId) {
+  public static int getCartItemsCount(int userId)  {
     int count = -1;
     try {
       String GET_CART_ITEMS_COUNT_QUERY =
         "SELECT SUM(quantity) FROM cart_item WHERE person_id = ?";
-      Connection conn = DBConnection.getConnection();
+
+      ConnectionPool pool = ConnectionPool.getInstance();
+      Connection conn = pool.getConnection();
+
       PreparedStatement ps = conn.prepareStatement(GET_CART_ITEMS_COUNT_QUERY);
       ps.setInt(1, userId);
       ResultSet rs = ps.executeQuery();
       if (rs.next()) {
         count = rs.getInt(1);
       }
-      conn.close();
-    } catch (SQLException | ClassNotFoundException e) {
+      pool.freeConnection(conn);
+    } catch (SQLException e) {
       e.printStackTrace();
     }
     return count;
@@ -51,14 +57,15 @@ public class CartDAO {
     try {
       String UPSERT_CART_ITEM_QUERY =
         "INSERT INTO cart_item (product_id, quantity, person_id) VALUES (?, ?, ?) ON CONFLICT (product_id, person_id) DO UPDATE SET quantity = cart_item.quantity + 1";
-      Connection conn = DBConnection.getConnection();
+      ConnectionPool pool = ConnectionPool.getInstance();
+      Connection conn = pool.getConnection();
       PreparedStatement ps = conn.prepareStatement(UPSERT_CART_ITEM_QUERY);
       ps.setInt(1, productId);
       ps.setInt(2, 1);
       ps.setInt(3, userId);
       result = ps.executeUpdate();
-      conn.close();
-    } catch (SQLException | ClassNotFoundException e) {
+      pool.freeConnection(conn);
+    } catch (SQLException e) {
       e.printStackTrace();
     }
     return result;
@@ -69,15 +76,16 @@ public class CartDAO {
     try {
       String REDUCE_CART_ITEM_QUANTITY_QUERY =
         "UPDATE cart_item SET quantity = quantity - 1 WHERE person_id = ? AND product_id = ? AND quantity > 1";
-      Connection conn = DBConnection.getConnection();
+      ConnectionPool pool = ConnectionPool.getInstance();
+      Connection conn = pool.getConnection();
       PreparedStatement ps = conn.prepareStatement(
         REDUCE_CART_ITEM_QUANTITY_QUERY
       );
       ps.setInt(1, userId);
       ps.setInt(2, productId);
       result = ps.executeUpdate();
-      conn.close();
-    } catch (SQLException | ClassNotFoundException e) {
+      pool.freeConnection(conn);
+    } catch (SQLException e) {
       e.printStackTrace();
     }
     return result;
@@ -88,13 +96,14 @@ public class CartDAO {
     try {
       String DELETE_CART_ITEM_QUERY =
         "DELETE FROM cart_item WHERE person_id = ? AND product_id = ?";
-      Connection conn = DBConnection.getConnection();
+      ConnectionPool pool = ConnectionPool.getInstance();
+      Connection conn = pool.getConnection();
       PreparedStatement ps = conn.prepareStatement(DELETE_CART_ITEM_QUERY);
       ps.setInt(1, userId);
       ps.setInt(2, productId);
       result = ps.executeUpdate();
-      conn.close();
-    } catch (SQLException | ClassNotFoundException e) {
+      pool.freeConnection(conn);
+    } catch (SQLException  e) {
       e.printStackTrace();
     }
     return result;
@@ -105,7 +114,8 @@ public class CartDAO {
     try {
       String GET_CART_ITEMS_QUERY_POSTGRESQL =
         "SELECT cart_item.id, product_id, quantity, name, description, price, img_url from cart_item, product WHERE cart_item.product_id = product.id AND cart_item.person_id = ? ORDER BY id DESC";
-      Connection conn = DBConnection.getConnection();
+      ConnectionPool pool = ConnectionPool.getInstance();
+      Connection conn = pool.getConnection();
       PreparedStatement ps = conn.prepareStatement(
         GET_CART_ITEMS_QUERY_POSTGRESQL
       );
@@ -126,8 +136,8 @@ public class CartDAO {
         cartItems.add(cartItem);
       }
       cart = new Cart(cartItems);
-      conn.close();
-    } catch (SQLException | ClassNotFoundException e) {
+      pool.freeConnection(conn);
+    } catch (SQLException e) {
       e.printStackTrace();
     }
     return cart;

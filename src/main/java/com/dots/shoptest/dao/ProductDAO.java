@@ -1,5 +1,6 @@
 package com.dots.shoptest.dao;
 
+import com.dots.shoptest.db.ConnectionPool;
 import com.dots.shoptest.db.DBConnection;
 import com.dots.shoptest.model.Product;
 import java.sql.Connection;
@@ -15,7 +16,8 @@ public class ProductDAO {
     try {
       String GET_ALL_PRODUCTS =
         "SELECT product.id, product.name, product.description, product.price, product.img_url, product.stock, category.id as category_id, category.name as category_name FROM product, category WHERE product.category_id = category.id";
-      Connection conn = DBConnection.getConnection();
+      ConnectionPool pool = ConnectionPool.getInstance();
+      Connection conn = pool.getConnection();
       if (conn == null) {
         throw new SQLException("Connection is null");
       }
@@ -34,8 +36,8 @@ public class ProductDAO {
         product.setStock(rs.getInt("stock"));
         products.add(product);
       }
-      conn.close();
-    } catch (SQLException | ClassNotFoundException e) {
+      pool.freeConnection(conn);
+    } catch (SQLException e) {
       e.printStackTrace();
     }
     return products;

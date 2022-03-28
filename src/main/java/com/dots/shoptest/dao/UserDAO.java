@@ -1,5 +1,6 @@
 package com.dots.shoptest.dao;
 
+import com.dots.shoptest.db.ConnectionPool;
 import com.dots.shoptest.db.DBConnection;
 import com.dots.shoptest.model.User;
 import com.dots.shoptest.utils.Auth;
@@ -17,7 +18,8 @@ public class UserDAO {
       "INSERT INTO person (name, password, email) VALUES (?, ?, ?)";
     int result = 0;
     try {
-      Connection conn = DBConnection.getConnection();
+      ConnectionPool pool = ConnectionPool.getInstance();
+      Connection conn = pool.getConnection();
       if (conn == null) {
         throw new SQLException("Connection is null");
       }
@@ -35,8 +37,8 @@ public class UserDAO {
         preparedStatement.setString(3, user.getEmail());
         result = preparedStatement.executeUpdate();
       }
-      conn.close();
-    } catch (SQLException | ClassNotFoundException e) {
+      pool.freeConnection(conn);
+    } catch (SQLException  e) {
       e.printStackTrace();
     }
 
@@ -49,7 +51,8 @@ public class UserDAO {
       // get password from email
       String query =
         "SELECT id, name, email, password FROM person WHERE email = ?";
-      Connection conn = DBConnection.getConnection();
+      ConnectionPool pool = ConnectionPool.getInstance();
+      Connection conn = pool.getConnection();
       if (conn == null) {
         throw new SQLException("Connection is null");
       }
@@ -69,10 +72,42 @@ public class UserDAO {
         user.setName(resultSet.getString("name"));
         user.setEmail(resultSet.getString("email"));
       }
-      conn.close();
-    } catch (SQLException | ClassNotFoundException e) {
+      pool.freeConnection(conn);
+    } catch (SQLException  e) {
       e.printStackTrace();
     }
     return user;
   }
+  public static User findUserByEmail(String email) {
+    User user = null;
+    try {
+      String GET_USER_BY_EMAIL =
+        "SELECT id, name, email FROM person WHERE email = ?";
+      ConnectionPool pool = ConnectionPool.getInstance();
+      Connection conn = pool.getConnection();
+      if (conn == null) {
+        throw new SQLException("Connection is null");
+      }
+      PreparedStatement preparedStatement = conn.prepareStatement(
+        GET_USER_BY_EMAIL,
+        ResultSet.TYPE_SCROLL_INSENSITIVE,
+        ResultSet.CONCUR_READ_ONLY
+      );
+      preparedStatement.setString(1, email);
+      ResultSet resultSet = preparedStatement.executeQuery();
+
+      if (resultSet.first()) {
+        user = new User();
+        user.setId(resultSet.getInt("id"));
+        user.setName(resultSet.getString("name"));
+        user.setEmail(resultSet.getString("email"));
+      }
+      pool.freeConnection(conn);
+    } catch (SQLException  e) {
+      e.printStackTrace();
+    }
+    return user;
+  }
+
 }
+

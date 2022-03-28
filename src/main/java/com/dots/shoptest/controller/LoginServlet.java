@@ -16,10 +16,8 @@ public class LoginServlet extends HttpServlet {
     HttpServletRequest request,
     HttpServletResponse response
   ) throws ServletException, IOException {
-    if (request.getSession().getAttribute("isAuthenticated") == null) {
-      response.sendRedirect(
-        getServletContext().getContextPath() + "/login.jsp"
-      );
+    if (Auth.getAuthenticatedUser(request) == null) {
+      getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
       return;
     }
     response.sendRedirect(getServletContext().getContextPath() + "/");
@@ -49,9 +47,13 @@ public class LoginServlet extends HttpServlet {
         .forward(request, response);
       return;
     }
+
     HttpSession session = request.getSession();
-    session.setAttribute("isAuthenticated", true);
     session.setAttribute("user", user);
+    Cookie cookie = new Cookie("token", Auth.createToken(email));
+    cookie.setMaxAge(60 * 60 * 24 * 7);
+    response.addCookie(cookie);
+
     response.sendRedirect(getServletContext().getContextPath() + "/");
   }
 }

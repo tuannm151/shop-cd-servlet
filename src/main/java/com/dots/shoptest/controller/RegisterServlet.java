@@ -18,10 +18,8 @@ public class RegisterServlet extends HttpServlet {
     HttpServletRequest request,
     HttpServletResponse response
   ) throws ServletException, IOException {
-    if (request.getSession().getAttribute("isAuthenticated") == null) {
-      response.sendRedirect(
-        getServletContext().getContextPath() + "/register.jsp"
-      );
+    if (Auth.getAuthenticatedUser(request) == null) {
+      getServletContext().getRequestDispatcher("/register.jsp").forward(request, response);
       return;
     }
     response.sendRedirect(getServletContext().getContextPath() + "/");
@@ -60,6 +58,7 @@ public class RegisterServlet extends HttpServlet {
       request.setAttribute("password", password);
     } else {
       request.setAttribute("success", "Registration successful");
+      url = "/login";
     }
     getServletContext().getRequestDispatcher(url).forward(request, response);
   }

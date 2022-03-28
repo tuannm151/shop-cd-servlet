@@ -5,6 +5,7 @@ import com.dots.shoptest.dao.OrderDAO;
 import com.dots.shoptest.dto.OrderDTO;
 import com.dots.shoptest.model.Order;
 import com.dots.shoptest.model.User;
+import com.dots.shoptest.utils.Auth;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,11 +14,12 @@ import java.util.Objects;
 import javax.servlet.*;
 import javax.servlet.annotation.*;
 import javax.servlet.http.*;
+import javax.sql.DataSource;
 
 @WebServlet(name = "OrderServlet", value = "/orders")
 public class OrderServlet extends HttpServlet {
 
-  private Gson gson = new Gson();
+  private final Gson gson = new Gson();
 
   @Override
   protected void doGet(
@@ -31,10 +33,10 @@ public class OrderServlet extends HttpServlet {
       return;
     }
 
-    User user = (User) request.getSession().getAttribute("user");
+    User user = Auth.getAuthenticatedUser(request);
     if (user == null) {
       response.sendRedirect(
-        getServletContext().getContextPath() + "/login.jsp"
+        getServletContext().getContextPath() + "/login"
       );
       return;
     }
@@ -69,7 +71,7 @@ public class OrderServlet extends HttpServlet {
     User user = (User) request.getSession().getAttribute("user");
     if (user == null) {
       response.sendRedirect(
-        getServletContext().getContextPath() + "/login.jsp"
+        getServletContext().getContextPath() + "/login"
       );
       return;
     }
@@ -97,7 +99,12 @@ public class OrderServlet extends HttpServlet {
     request.setCharacterEncoding("UTF-8");
     String address = request.getParameter("address");
     String phone = request.getParameter("phone");
-    User user = (User) request.getSession().getAttribute("user");
+
+    if(address == null || address.trim().isEmpty() || phone == null || phone.trim().isEmpty()) {
+      response.sendRedirect(getServletContext().getContextPath() + "/cart");
+    }
+
+    User user = Auth.getAuthenticatedUser(request);
     if (user == null) {
       response.sendRedirect(
         getServletContext().getContextPath() + "/login.jsp"
@@ -115,6 +122,7 @@ public class OrderServlet extends HttpServlet {
     newOrderDTO.setAddress(address);
     newOrderDTO.setPhone(phone);
     newOrderDTO.setStatus("pending");
+
     Integer orderId = OrderDAO.initOrder(newOrderDTO);
     int result = OrderDAO.createOrder(orderId, user.getId());
     String url = "/orders";

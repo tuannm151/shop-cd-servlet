@@ -1,5 +1,6 @@
 package com.dots.shoptest.dao;
 
+import com.dots.shoptest.db.ConnectionPool;
 import com.dots.shoptest.db.DBConnection;
 import com.dots.shoptest.dto.OrderDTO;
 import com.dots.shoptest.model.CartItem;
@@ -20,7 +21,8 @@ public class OrderDAO {
     try {
       String sql =
         "INSERT INTO person_order (person_id, address, phone, status, created_date) VALUES (?, ?, ?, ?, ?) RETURNING  id";
-      Connection conn = DBConnection.getConnection();
+      ConnectionPool pool = ConnectionPool.getInstance();
+      Connection conn = pool.getConnection();
       PreparedStatement ps = conn.prepareStatement(sql);
       ps.setInt(1, orderDTO.getUserId());
       ps.setString(2, orderDTO.getAddress());
@@ -33,8 +35,8 @@ public class OrderDAO {
         orderId = rs.getInt("id");
       }
 
-      conn.close();
-    } catch (SQLException | ClassNotFoundException e) {
+      pool.freeConnection(conn);
+    } catch (SQLException  e) {
       e.printStackTrace();
     }
     return orderId;
@@ -43,7 +45,8 @@ public class OrderDAO {
   public static int createOrder(Integer orderId, Integer userId) {
     int result = 0;
     try {
-      Connection conn = DBConnection.getConnection();
+      ConnectionPool pool = ConnectionPool.getInstance();
+      Connection conn = pool.getConnection();
       String GET_CART_ITEMS =
         "SELECT product_id, price, quantity FROM cart_item, product WHERE cart_item.product_id = product.id AND cart_item.person_id = ?";
       PreparedStatement ps = conn.prepareStatement(GET_CART_ITEMS);
@@ -87,8 +90,8 @@ public class OrderDAO {
         ps.setInt(1, userId);
         result = ps.executeUpdate();
       }
-      conn.close();
-    } catch (SQLException | ClassNotFoundException e) {
+      pool.freeConnection(conn);
+    } catch (SQLException  e) {
       e.printStackTrace();
     }
     return result;
@@ -97,7 +100,8 @@ public class OrderDAO {
   public static ArrayList<OrderDTO> getOrdersByUserId(Integer userId) {
     ArrayList<OrderDTO> orderDTOS = null;
     try {
-      Connection conn = DBConnection.getConnection();
+      ConnectionPool pool = ConnectionPool.getInstance();
+      Connection conn = pool.getConnection();
 
       String GET_ORDERS =
         "SELECT id, person_id, address, phone, status, created_date, total FROM person_order WHERE person_id = ? ORDER BY id DESC";
@@ -126,8 +130,8 @@ public class OrderDAO {
         orderDTO.setItemCount(orderItemsCountRs.getInt(1));
         orderDTOS.add(orderDTO);
       }
-      conn.close();
-    } catch (SQLException | ClassNotFoundException e) {
+      pool.freeConnection(conn);
+    } catch (SQLException  e) {
       e.printStackTrace();
     }
     return orderDTOS;
@@ -136,7 +140,8 @@ public class OrderDAO {
   public static Order getOrderById(int orderId, int userId) {
     Order order = null;
     try {
-      Connection conn = DBConnection.getConnection();
+      ConnectionPool pool = ConnectionPool.getInstance();
+      Connection conn = pool.getConnection();
 
       String SQL_CHECK_ORDER_OWNER =
         "SELECT * FROM person_order WHERE id = ? AND person_id = ?";
@@ -145,7 +150,7 @@ public class OrderDAO {
       ps.setInt(2, userId);
       ResultSet rs = ps.executeQuery();
       if (!rs.next()) {
-        conn.close();
+        pool.freeConnection(conn);
         return null;
       }
       String SQL_GET_ORDER_ITEMS =
@@ -181,8 +186,8 @@ public class OrderDAO {
       order.setStatus(rs.getString("status"));
       order.setTotalPrice(rs.getBigDecimal("total"));
       order.setCreatedDate(rs.getString("created_date"));
-      conn.close();
-    } catch (SQLException | ClassNotFoundException e) {
+      pool.freeConnection(conn);
+    } catch (SQLException  e) {
       e.printStackTrace();
     }
     return order;

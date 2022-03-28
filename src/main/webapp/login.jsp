@@ -60,7 +60,7 @@
         </form>
 
         <div class="form-footer">
-          <a href="${pageContext.request.contextPath}/register.jsp" class="form-footer__link">Don't have an account? Register here</a>
+          <a href="${pageContext.request.contextPath}/register" class="form-footer__link">Don't have an account? Register here</a>
         </div>
     </div>
     </div>
