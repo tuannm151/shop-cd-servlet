@@ -21,8 +21,7 @@ public class OrderDAO {
     try {
       String sql =
         "INSERT INTO person_order (person_id, address, phone, status, created_date) VALUES (?, ?, ?, ?, ?) RETURNING  id";
-      ConnectionPool pool = ConnectionPool.getInstance();
-      Connection conn = pool.getConnection();
+      Connection conn = ConnectionPool.getConnection();
       PreparedStatement ps = conn.prepareStatement(sql);
       ps.setInt(1, orderDTO.getUserId());
       ps.setString(2, orderDTO.getAddress());
@@ -35,7 +34,8 @@ public class OrderDAO {
         orderId = rs.getInt("id");
       }
 
-      pool.freeConnection(conn);
+      conn.close();
+      ps.close();
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -45,8 +45,7 @@ public class OrderDAO {
   public static int createOrder(Integer orderId, Integer userId) {
     int result = 0;
     try {
-      ConnectionPool pool = ConnectionPool.getInstance();
-      Connection conn = pool.getConnection();
+      Connection conn = ConnectionPool.getConnection();
       String GET_CART_ITEMS =
         "SELECT product_id, price, quantity FROM cart_item, product WHERE cart_item.product_id = product.id AND cart_item.person_id = ?";
       PreparedStatement ps = conn.prepareStatement(GET_CART_ITEMS);
@@ -90,7 +89,8 @@ public class OrderDAO {
         ps.setInt(1, userId);
         result = ps.executeUpdate();
       }
-      pool.freeConnection(conn);
+      conn.close();
+      ps.close();
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -100,8 +100,7 @@ public class OrderDAO {
   public static ArrayList<OrderDTO> getOrdersByUserId(Integer userId) {
     ArrayList<OrderDTO> orderDTOS = null;
     try {
-      ConnectionPool pool = ConnectionPool.getInstance();
-      Connection conn = pool.getConnection();
+      Connection conn = ConnectionPool.getConnection();
 
       String GET_ORDERS =
         "SELECT id, person_id, address, phone, status, created_date, total FROM person_order WHERE person_id = ? ORDER BY id DESC";
@@ -130,7 +129,8 @@ public class OrderDAO {
         orderDTO.setItemCount(orderItemsCountRs.getInt(1));
         orderDTOS.add(orderDTO);
       }
-      pool.freeConnection(conn);
+      conn.close();
+      ps.close();
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -140,8 +140,7 @@ public class OrderDAO {
   public static Order getOrderById(int orderId, int userId) {
     Order order = null;
     try {
-      ConnectionPool pool = ConnectionPool.getInstance();
-      Connection conn = pool.getConnection();
+      Connection conn = ConnectionPool.getConnection();
 
       String SQL_CHECK_ORDER_OWNER =
         "SELECT * FROM person_order WHERE id = ? AND person_id = ?";
@@ -150,7 +149,8 @@ public class OrderDAO {
       ps.setInt(2, userId);
       ResultSet rs = ps.executeQuery();
       if (!rs.next()) {
-        pool.freeConnection(conn);
+        conn.close();
+        ps.close();
         return null;
       }
       String SQL_GET_ORDER_ITEMS =
@@ -186,7 +186,8 @@ public class OrderDAO {
       order.setStatus(rs.getString("status"));
       order.setTotalPrice(rs.getBigDecimal("total"));
       order.setCreatedDate(rs.getString("created_date"));
-      pool.freeConnection(conn);
+      conn.close();
+      ps.close();
     } catch (SQLException e) {
       e.printStackTrace();
     }

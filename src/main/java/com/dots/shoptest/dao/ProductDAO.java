@@ -16,8 +16,7 @@ public class ProductDAO {
     try {
       String GET_ALL_PRODUCTS =
         "SELECT product.id, product.name, product.description, product.price, product.img_url, product.stock, category.id as category_id, category.name as category_name FROM product, category WHERE product.category_id = category.id";
-      ConnectionPool pool = ConnectionPool.getInstance();
-      Connection conn = pool.getConnection();
+      Connection conn = ConnectionPool.getConnection();
       if (conn == null) {
         throw new SQLException("Connection is null");
       }
@@ -36,7 +35,8 @@ public class ProductDAO {
         product.setStock(rs.getInt("stock"));
         products.add(product);
       }
-      pool.freeConnection(conn);
+      conn.close();
+      ps.close();
     } catch (SQLException e) {
       e.printStackTrace();
     }

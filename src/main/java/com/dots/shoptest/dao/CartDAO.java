@@ -14,16 +14,16 @@ public class CartDAO {
   public static boolean isCartEmpty(int userId) {
     boolean isEmpty = false;
     try {
-      ConnectionPool pool = ConnectionPool.getInstance();
-      Connection conn = pool.getConnection();
+      Connection conn = ConnectionPool.getConnection();
       String sql = "SELECT * FROM cart_item WHERE person_id = ?";
-      PreparedStatement preparedStatement = conn.prepareStatement(sql);
-      preparedStatement.setInt(1, userId);
-      ResultSet resultSet = preparedStatement.executeQuery();
+      PreparedStatement ps = conn.prepareStatement(sql);
+      ps.setInt(1, userId);
+      ResultSet resultSet = ps.executeQuery();
       if (!resultSet.next()) {
         isEmpty = true;
       }
-      pool.freeConnection(conn);
+      conn.close();
+      ps.close();
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -36,8 +36,7 @@ public class CartDAO {
       String GET_CART_ITEMS_COUNT_QUERY =
         "SELECT SUM(quantity) FROM cart_item WHERE person_id = ?";
 
-      ConnectionPool pool = ConnectionPool.getInstance();
-      Connection conn = pool.getConnection();
+      Connection conn = ConnectionPool.getConnection();
 
       PreparedStatement ps = conn.prepareStatement(GET_CART_ITEMS_COUNT_QUERY);
       ps.setInt(1, userId);
@@ -45,7 +44,8 @@ public class CartDAO {
       if (rs.next()) {
         count = rs.getInt(1);
       }
-      pool.freeConnection(conn);
+      conn.close();
+      ps.close();
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -57,14 +57,14 @@ public class CartDAO {
     try {
       String UPSERT_CART_ITEM_QUERY =
         "INSERT INTO cart_item (product_id, quantity, person_id) VALUES (?, ?, ?) ON CONFLICT (product_id, person_id) DO UPDATE SET quantity = cart_item.quantity + 1";
-      ConnectionPool pool = ConnectionPool.getInstance();
-      Connection conn = pool.getConnection();
+      Connection conn = ConnectionPool.getConnection();
       PreparedStatement ps = conn.prepareStatement(UPSERT_CART_ITEM_QUERY);
       ps.setInt(1, productId);
       ps.setInt(2, 1);
       ps.setInt(3, userId);
       result = ps.executeUpdate();
-      pool.freeConnection(conn);
+      conn.close();
+      ps.close();
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -76,15 +76,15 @@ public class CartDAO {
     try {
       String REDUCE_CART_ITEM_QUANTITY_QUERY =
         "UPDATE cart_item SET quantity = quantity - 1 WHERE person_id = ? AND product_id = ? AND quantity > 1";
-      ConnectionPool pool = ConnectionPool.getInstance();
-      Connection conn = pool.getConnection();
+      Connection conn = ConnectionPool.getConnection();
       PreparedStatement ps = conn.prepareStatement(
         REDUCE_CART_ITEM_QUANTITY_QUERY
       );
       ps.setInt(1, userId);
       ps.setInt(2, productId);
       result = ps.executeUpdate();
-      pool.freeConnection(conn);
+      conn.close();
+      ps.close();
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -96,13 +96,13 @@ public class CartDAO {
     try {
       String DELETE_CART_ITEM_QUERY =
         "DELETE FROM cart_item WHERE person_id = ? AND product_id = ?";
-      ConnectionPool pool = ConnectionPool.getInstance();
-      Connection conn = pool.getConnection();
+      Connection conn = ConnectionPool.getConnection();
       PreparedStatement ps = conn.prepareStatement(DELETE_CART_ITEM_QUERY);
       ps.setInt(1, userId);
       ps.setInt(2, productId);
       result = ps.executeUpdate();
-      pool.freeConnection(conn);
+      conn.close();
+      ps.close();
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -114,8 +114,7 @@ public class CartDAO {
     try {
       String GET_CART_ITEMS_QUERY_POSTGRESQL =
         "SELECT cart_item.id, product_id, quantity, name, description, price, img_url from cart_item, product WHERE cart_item.product_id = product.id AND cart_item.person_id = ? ORDER BY id DESC";
-      ConnectionPool pool = ConnectionPool.getInstance();
-      Connection conn = pool.getConnection();
+      Connection conn = ConnectionPool.getConnection();
       PreparedStatement ps = conn.prepareStatement(
         GET_CART_ITEMS_QUERY_POSTGRESQL
       );
@@ -136,7 +135,8 @@ public class CartDAO {
         cartItems.add(cartItem);
       }
       cart = new Cart(cartItems);
-      pool.freeConnection(conn);
+      conn.close();
+      ps.close();
     } catch (SQLException e) {
       e.printStackTrace();
     }

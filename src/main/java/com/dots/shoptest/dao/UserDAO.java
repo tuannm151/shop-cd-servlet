@@ -18,26 +18,24 @@ public class UserDAO {
       "INSERT INTO person (name, password, email) VALUES (?, ?, ?)";
     int result = 0;
     try {
-      ConnectionPool pool = ConnectionPool.getInstance();
-      Connection conn = pool.getConnection();
+      Connection conn = ConnectionPool.getConnection();
       if (conn == null) {
         throw new SQLException("Connection is null");
       }
-      PreparedStatement preparedStatement = conn.prepareStatement(
-        CHECK_EMAIL_EXISTS_QUERY
-      );
-      preparedStatement.setString(1, user.getEmail());
-      boolean emailIsExists = preparedStatement.executeQuery().next();
+      PreparedStatement ps = conn.prepareStatement(CHECK_EMAIL_EXISTS_QUERY);
+      ps.setString(1, user.getEmail());
+      boolean emailIsExists = ps.executeQuery().next();
       if (emailIsExists) {
         result = -1;
       } else {
-        preparedStatement = conn.prepareStatement(INSERT_USER_QUERY);
-        preparedStatement.setString(1, user.getName());
-        preparedStatement.setString(2, Auth.hashPassword(user.getPassword()));
-        preparedStatement.setString(3, user.getEmail());
-        result = preparedStatement.executeUpdate();
+        ps = conn.prepareStatement(INSERT_USER_QUERY);
+        ps.setString(1, user.getName());
+        ps.setString(2, Auth.hashPassword(user.getPassword()));
+        ps.setString(3, user.getEmail());
+        result = ps.executeUpdate();
       }
-      pool.freeConnection(conn);
+      conn.close();
+      ps.close();
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -51,18 +49,17 @@ public class UserDAO {
       // get password from email
       String query =
         "SELECT id, name, email, password FROM person WHERE email = ?";
-      ConnectionPool pool = ConnectionPool.getInstance();
-      Connection conn = pool.getConnection();
+      Connection conn = ConnectionPool.getConnection();
       if (conn == null) {
         throw new SQLException("Connection is null");
       }
-      PreparedStatement preparedStatement = conn.prepareStatement(
+      PreparedStatement ps = conn.prepareStatement(
         query,
         ResultSet.TYPE_SCROLL_INSENSITIVE,
         ResultSet.CONCUR_READ_ONLY
       );
-      preparedStatement.setString(1, email);
-      ResultSet resultSet = preparedStatement.executeQuery();
+      ps.setString(1, email);
+      ResultSet resultSet = ps.executeQuery();
       resultSet.first();
       String dbPassword = resultSet.getString("password");
 
@@ -72,7 +69,8 @@ public class UserDAO {
         user.setName(resultSet.getString("name"));
         user.setEmail(resultSet.getString("email"));
       }
-      pool.freeConnection(conn);
+      conn.close();
+      ps.close();
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -84,18 +82,17 @@ public class UserDAO {
     try {
       String GET_USER_BY_EMAIL =
         "SELECT id, name, email FROM person WHERE email = ?";
-      ConnectionPool pool = ConnectionPool.getInstance();
-      Connection conn = pool.getConnection();
+      Connection conn = ConnectionPool.getConnection();
       if (conn == null) {
         throw new SQLException("Connection is null");
       }
-      PreparedStatement preparedStatement = conn.prepareStatement(
+      PreparedStatement ps = conn.prepareStatement(
         GET_USER_BY_EMAIL,
         ResultSet.TYPE_SCROLL_INSENSITIVE,
         ResultSet.CONCUR_READ_ONLY
       );
-      preparedStatement.setString(1, email);
-      ResultSet resultSet = preparedStatement.executeQuery();
+      ps.setString(1, email);
+      ResultSet resultSet = ps.executeQuery();
 
       if (resultSet.first()) {
         user = new User();
@@ -103,7 +100,8 @@ public class UserDAO {
         user.setName(resultSet.getString("name"));
         user.setEmail(resultSet.getString("email"));
       }
-      pool.freeConnection(conn);
+      conn.close();
+      ps.close();
     } catch (SQLException e) {
       e.printStackTrace();
     }
