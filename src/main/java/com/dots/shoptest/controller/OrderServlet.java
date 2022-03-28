@@ -35,9 +35,7 @@ public class OrderServlet extends HttpServlet {
 
     User user = Auth.getAuthenticatedUser(request);
     if (user == null) {
-      response.sendRedirect(
-        getServletContext().getContextPath() + "/login"
-      );
+      response.sendRedirect(getServletContext().getContextPath() + "/login");
       return;
     }
     request.setCharacterEncoding("UTF-8");
@@ -70,9 +68,7 @@ public class OrderServlet extends HttpServlet {
   ) throws ServletException, IOException {
     User user = (User) request.getSession().getAttribute("user");
     if (user == null) {
-      response.sendRedirect(
-        getServletContext().getContextPath() + "/login"
-      );
+      response.sendRedirect(getServletContext().getContextPath() + "/login");
       return;
     }
     String orderId = request.getParameter("orderId");
@@ -100,7 +96,12 @@ public class OrderServlet extends HttpServlet {
     String address = request.getParameter("address");
     String phone = request.getParameter("phone");
 
-    if(address == null || address.trim().isEmpty() || phone == null || phone.trim().isEmpty()) {
+    if (
+      address == null ||
+      address.trim().isEmpty() ||
+      phone == null ||
+      phone.trim().isEmpty()
+    ) {
       response.sendRedirect(getServletContext().getContextPath() + "/cart");
     }
 

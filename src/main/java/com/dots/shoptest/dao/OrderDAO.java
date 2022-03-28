@@ -36,7 +36,7 @@ public class OrderDAO {
       }
 
       pool.freeConnection(conn);
-    } catch (SQLException  e) {
+    } catch (SQLException e) {
       e.printStackTrace();
     }
     return orderId;
@@ -91,7 +91,7 @@ public class OrderDAO {
         result = ps.executeUpdate();
       }
       pool.freeConnection(conn);
-    } catch (SQLException  e) {
+    } catch (SQLException e) {
       e.printStackTrace();
     }
     return result;
@@ -131,7 +131,7 @@ public class OrderDAO {
         orderDTOS.add(orderDTO);
       }
       pool.freeConnection(conn);
-    } catch (SQLException  e) {
+    } catch (SQLException e) {
       e.printStackTrace();
     }
     return orderDTOS;
@@ -187,7 +187,7 @@ public class OrderDAO {
       order.setTotalPrice(rs.getBigDecimal("total"));
       order.setCreatedDate(rs.getString("created_date"));
       pool.freeConnection(conn);
-    } catch (SQLException  e) {
+    } catch (SQLException e) {
       e.printStackTrace();
     }
     return order;

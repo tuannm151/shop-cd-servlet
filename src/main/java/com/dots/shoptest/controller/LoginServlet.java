@@ -17,7 +17,9 @@ public class LoginServlet extends HttpServlet {
     HttpServletResponse response
   ) throws ServletException, IOException {
     if (Auth.getAuthenticatedUser(request) == null) {
-      getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
+      getServletContext()
+        .getRequestDispatcher("/login.jsp")
+        .forward(request, response);
       return;
     }
     response.sendRedirect(getServletContext().getContextPath() + "/");

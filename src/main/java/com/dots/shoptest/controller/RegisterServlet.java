@@ -19,7 +19,9 @@ public class RegisterServlet extends HttpServlet {
     HttpServletResponse response
   ) throws ServletException, IOException {
     if (Auth.getAuthenticatedUser(request) == null) {
-      getServletContext().getRequestDispatcher("/register.jsp").forward(request, response);
+      getServletContext()
+        .getRequestDispatcher("/register.jsp")
+        .forward(request, response);
       return;
     }
     response.sendRedirect(getServletContext().getContextPath() + "/");

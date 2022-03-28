@@ -5,7 +5,6 @@ import com.dots.shoptest.dao.ProductDAO;
 import com.dots.shoptest.model.Product;
 import com.dots.shoptest.model.User;
 import com.dots.shoptest.utils.Auth;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.servlet.*;
@@ -26,8 +25,8 @@ public class HomePageServlet extends HttpServlet {
 
     int cartCount = 0;
     User user = Auth.getAuthenticatedUser(request);
-    if(user != null) {
-       cartCount =  CartDAO.getCartItemsCount(user.getId());
+    if (user != null) {
+      cartCount = CartDAO.getCartItemsCount(user.getId());
     }
 
     if (products != null) {

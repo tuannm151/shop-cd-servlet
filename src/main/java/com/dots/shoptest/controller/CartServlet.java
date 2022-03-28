@@ -4,7 +4,6 @@ import com.dots.shoptest.dao.CartDAO;
 import com.dots.shoptest.model.Cart;
 import com.dots.shoptest.model.User;
 import com.dots.shoptest.utils.Auth;
-
 import java.io.IOException;
 import javax.servlet.*;
 import javax.servlet.annotation.*;
@@ -20,9 +19,7 @@ public class CartServlet extends HttpServlet {
   ) throws ServletException, IOException {
     User user = Auth.getAuthenticatedUser(request);
     if (user == null) {
-      response.sendRedirect(
-        getServletContext().getContextPath() + "/login"
-      );
+      response.sendRedirect(getServletContext().getContextPath() + "/login");
       return;
     }
     Cart cart = CartDAO.getCart(user.getId());
@@ -31,14 +28,16 @@ public class CartServlet extends HttpServlet {
     } else {
       request.setAttribute("error", "Something went wrong");
     }
-    getServletContext().getRequestDispatcher("/cart.jsp").forward(request, response);
+    getServletContext()
+      .getRequestDispatcher("/cart.jsp")
+      .forward(request, response);
   }
 
   @Override
   protected void doPost(
     HttpServletRequest request,
     HttpServletResponse response
-  )  {
+  ) {
     User user = (User) request.getSession().getAttribute("user");
     if (user == null) {
       return;

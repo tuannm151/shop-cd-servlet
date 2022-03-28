@@ -24,13 +24,13 @@ public class CartDAO {
         isEmpty = true;
       }
       pool.freeConnection(conn);
-    } catch (SQLException  e) {
+    } catch (SQLException e) {
       e.printStackTrace();
     }
     return isEmpty;
   }
 
-  public static int getCartItemsCount(int userId)  {
+  public static int getCartItemsCount(int userId) {
     int count = -1;
     try {
       String GET_CART_ITEMS_COUNT_QUERY =
@@ -103,7 +103,7 @@ public class CartDAO {
       ps.setInt(2, productId);
       result = ps.executeUpdate();
       pool.freeConnection(conn);
-    } catch (SQLException  e) {
+    } catch (SQLException e) {
       e.printStackTrace();
     }
     return result;

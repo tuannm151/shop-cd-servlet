@@ -38,7 +38,7 @@ public class UserDAO {
         result = preparedStatement.executeUpdate();
       }
       pool.freeConnection(conn);
-    } catch (SQLException  e) {
+    } catch (SQLException e) {
       e.printStackTrace();
     }
 
@@ -73,11 +73,12 @@ public class UserDAO {
         user.setEmail(resultSet.getString("email"));
       }
       pool.freeConnection(conn);
-    } catch (SQLException  e) {
+    } catch (SQLException e) {
       e.printStackTrace();
     }
     return user;
   }
+
   public static User findUserByEmail(String email) {
     User user = null;
     try {
@@ -103,11 +104,9 @@ public class UserDAO {
         user.setEmail(resultSet.getString("email"));
       }
       pool.freeConnection(conn);
-    } catch (SQLException  e) {
+    } catch (SQLException e) {
       e.printStackTrace();
     }
     return user;
   }
-
 }
-
