@@ -9,13 +9,18 @@ import javax.sql.DataSource;
 public class ConnectionPool {
 
   private static ConnectionPool pool = null;
-  private DataSource dataSource = null;
+  private DataSource dataSource;
 
   private ConnectionPool() {
     try {
       InitialContext context = new InitialContext();
-      dataSource = (DataSource) context.lookup("java:comp/env/jdbc/shoptest");
-    } catch (NamingException e) {
+       dataSource = (DataSource) context.lookup("java:comp/env/jdbc/shoptest");
+      if(dataSource != null) {
+        System.out.println("ConnectionPool: DataSource found");
+      } else {
+        throw new RuntimeException("DataSource not found");
+      }
+    } catch (Exception e) {
       e.printStackTrace();
     }
   }
