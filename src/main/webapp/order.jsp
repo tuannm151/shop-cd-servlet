@@ -72,7 +72,7 @@
       </ul>
       <a href="${pageContext.request.contextPath}/cart" class="cart-logo">
         <i class="bi bi-cart-check cart__icon"></i>
-        <span  class="cart__count" id="cartCount" data-cart-count="${cart.totalSize}">${cart.totalSize}</span>
+        <span  class="cart__count" id="cartCount" data-cart-count="${cartCount}">${cartCount}</span>
       </a>
     </header>
     <section class="order-section">

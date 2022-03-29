@@ -14,7 +14,7 @@ import java.util.Objects;
 import javax.servlet.*;
 import javax.servlet.annotation.*;
 import javax.servlet.http.*;
-import javax.sql.DataSource;
+
 
 @WebServlet(name = "OrderServlet", value = "/orders")
 public class OrderServlet extends HttpServlet {
@@ -38,6 +38,7 @@ public class OrderServlet extends HttpServlet {
       response.sendRedirect(getServletContext().getContextPath() + "/login");
       return;
     }
+
     request.setCharacterEncoding("UTF-8");
     ArrayList<OrderDTO> orderDTOS = OrderDAO.getOrdersByUserId(user.getId());
     String url = "/order.jsp";
