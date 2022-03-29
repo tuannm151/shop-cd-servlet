@@ -12,7 +12,7 @@ import org.mindrot.jbcrypt.BCrypt;
 public class UserDAO {
 
   public static int registerUser(User user) {
-    String CHECK_EMAIL_EXISTS_QUERY = "SELECT * FROM person WHERE email = ?";
+    String CHECK_EMAIL_EXISTS_QUERY = "SELECT * FROM person WHERE LOWER(email) LIKE LOWER(?)";
     String INSERT_USER_QUERY =
       "INSERT INTO person (name, password, email) VALUES (?, ?, ?)";
     int result = 0;
@@ -22,7 +22,7 @@ public class UserDAO {
         throw new SQLException("Connection is null");
       }
       PreparedStatement ps = conn.prepareStatement(CHECK_EMAIL_EXISTS_QUERY);
-      ps.setString(1, user.getEmail());
+      ps.setString(1, user.getEmail().toLowerCase());
       boolean emailIsExists = ps.executeQuery().next();
       if (emailIsExists) {
         result = -1;
