@@ -20,17 +20,18 @@ public class UserForm {
     this.repassword = repassword;
   }
 
+
   public boolean isValid() {
-    if (name == null || name.trim().isEmpty()) {
-      error = "Name is required";
-      return false;
-    }
     if (email == null || email.trim().isEmpty()) {
       error = "Email is required";
       return false;
     }
     if (password == null || password.trim().isEmpty()) {
       error = "Password is required";
+      return false;
+    }
+    if (name == null || name.trim().isEmpty()) {
+      error = "Name is required";
       return false;
     }
     if (repassword == null || repassword.trim().isEmpty()) {
@@ -55,10 +56,6 @@ public class UserForm {
 
   public String getPassword() {
     return password;
-  }
-
-  public String getRepassword() {
-    return repassword;
   }
 
   public String getError() {

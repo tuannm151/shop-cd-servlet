@@ -70,15 +70,10 @@
           </c:otherwise>
         </c:choose>
       </ul>
-      <div class="cart-logo">
+      <a href="${pageContext.request.contextPath}/cart" class="cart-logo">
         <i class="bi bi-cart-check cart__icon"></i>
-        <span
-          class="cart__count"
-          id="cartCount"
-          data-cart-count="${cartCount}"
-          >${cartCount}</span
-        >
-      </div>
+        <span  class="cart__count" id="cartCount" data-cart-count="${cart.totalSize}">${cart.totalSize}</span>
+      </a>
     </header>
     <section class="order-section">
       <div class="order-container">

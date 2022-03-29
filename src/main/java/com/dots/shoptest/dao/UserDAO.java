@@ -1,7 +1,6 @@
 package com.dots.shoptest.dao;
 
 import com.dots.shoptest.db.ConnectionPool;
-import com.dots.shoptest.db.DBConnection;
 import com.dots.shoptest.model.User;
 import com.dots.shoptest.utils.Auth;
 import java.sql.Connection;

@@ -68,10 +68,10 @@
           </c:otherwise>
         </c:choose>
       </ul>
-      <div class="cart-logo ${empty sessionScope.user ? "notAuth" : ""}">
+      <a href="${pageContext.request.contextPath}/cart" class="cart-logo ${empty sessionScope.user ? "notAuth" : ""}">
         <i class="bi bi-cart-check cart__icon"></i>
         <span class="cart__count" id="cartCount" data-cart-count="${cartCount}">${cartCount}</span>
-      </div>
+      </a>
     </header>
     <section class="products">
       <div class="products__header">
