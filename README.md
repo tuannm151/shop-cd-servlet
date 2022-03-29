@@ -1,6 +1,6 @@
 # shop-cd-servlet
 A website selling CD music albums. 
--	Mục tiêu: Ôn lại kiến thức HTML, CSS, JS để làm đề tài dự án
+-	Tech: HTML, CSS, JS, Java Servlet, JSP
 -	Mô tả: Thiết kế website bán album đĩa CD
 -	Live web: https://cd-shop-servlet.herokuapp.com
 -	Chi tiết:
